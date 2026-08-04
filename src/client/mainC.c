@@ -5,30 +5,31 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/select.h>
-//#include "common.h"
+#include "data.h"
 #include <time.h>
 
 int main(){
-    char* line[50];
-    printf("Welcome to online terminal games\n");
+    printf("Welcome to online terminal games!\n");
+    char e='t';
     
-    while (1)
+    while (e=='t')
     {
         printf("Enter server IP: ");
         fflush(stdout);
 
-        if (fgets(line, sizeof(line), stdin)==NULL || strcmp(line, "exit\n")==0) {
+        if (fgets(ip, sizeof(ip), stdin)==NULL || strcmp(ip, "exit\n")==0) {
             printf("\nBye\n");
             break;
         }
 
 
 
-        if (line[0]=='\n') {
+        if (ip[0]=='\n') {
             continue;
         }
         
-        line[strlen(line) -1] = '\0';
+        ip[strlen(ip) -1] = '\0';
+        e='f';
         
     }
 
