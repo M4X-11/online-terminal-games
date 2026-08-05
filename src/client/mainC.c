@@ -9,6 +9,7 @@
 #include <time.h>
 
 int main(){
+    Address addr;
     printf("Welcome to online terminal games!\n");
     char e='t';
     
