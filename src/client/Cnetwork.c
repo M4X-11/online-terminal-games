@@ -9,6 +9,7 @@
 #include <time.h>
 #include <arpa/inet.h>
 
+Address addr;
 int startConnection(){
     printf("connecting...");
     fflush(stdout);
@@ -30,6 +31,6 @@ int startConnection(){
         usleep(100000);
         
     }
-    printf("connected to server.\n");
+    printf("\nconnected to server.\n");
     return 0;
 }

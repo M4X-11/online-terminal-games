@@ -7,12 +7,13 @@
 #include <sys/select.h>
 //#include "common.h"
 #include <time.h>
+#include "commands.h"
 
 int main(){
     int mode;
     printf("Welcome to online terminal games\n");
     printf("\ngame modes:\nsnake[1]\nTicTacToe[2]");
-    scanf("%d", mode);
+    scanf("%d", &mode);
 
     char line[1024];
     while (1)

@@ -7,9 +7,9 @@
 #include <sys/select.h>
 
 int startServer(){
-    srand(time(NULL));
+    //srand(time(NULL));
     int server_socket;
-    int connected = 0;
+    //int connected = 0;
     // Create socket
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -39,4 +39,5 @@ int startServer(){
 
     // Listen
     listen(server_socket, 5);
+    return 0;
 }
