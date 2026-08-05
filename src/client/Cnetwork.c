@@ -31,4 +31,5 @@ int startConnection(){
         
     }
     printf("connected to server.\n");
+    return 0;
 }
