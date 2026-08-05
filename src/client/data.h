@@ -1,7 +1,7 @@
 
 
 typedef struct{
-    char* ip[20];
+    char ip[20];
     int port;
 }Address;
 Address addr;

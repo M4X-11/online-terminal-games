@@ -7,6 +7,7 @@
 #include <sys/select.h>
 #include "data.h"
 #include <time.h>
+#include <arpa/inet.h>
 
 int startConnection(){
     printf("connecting...");
