@@ -17,21 +17,36 @@ int main(){
         printf("Enter server IP: ");
         fflush(stdout);
 
-        if (fgets(ip, sizeof(ip), stdin)==NULL || strcmp(ip, "exit\n")==0) {
+        if (fgets(addr.ip, sizeof(addr.ip), stdin)==NULL || strcmp(addr.ip, "exit\n")==0) {
             printf("\nBye\n");
             break;
         }
 
 
 
-        if (ip[0]=='\n') {
+        if (addr.ip[0]=='\n') {
             continue;
         }
         
-        ip[strlen(ip) -1] = '\0';
+        addr.ip[strlen(addr.ip) -1] = '\0';
         e='f';
         
     }
+    int result;
+    do {
+        printf("Enter server port: ");
+        result = scanf("%d", &addr.port);
+
+        if (result != 1) {
+            printf("Invalid input. Please enter a number.\n");
+
+            // Clear the invalid input from the buffer
+            while (getchar() != '\n');
+        }
+    } while (result != 1);
+
+    //network
+    startConnection();
 
     return 0;
 }

@@ -36,7 +36,7 @@ int main(){
         //idkvro(line);
         //tokens(line);
 
-        idkvro(tokens(line));
+        //idkvro(tokens(line));
     }
 
     return 0;
