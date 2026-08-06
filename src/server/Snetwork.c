@@ -64,7 +64,10 @@ int acceptPlayer(Player *players, int *connected)
     players[*connected].socket = client;
     players[*connected].connected = 1;
 
+    send(client, connected, sizeof(*connected), 0);
+    recv(client, &players[*connected].username, sizeof(players[*connected].username), 0);
     (*connected)++;
+    
 
     return client;
 }
