@@ -23,9 +23,6 @@ int main()
     startServer();
 
 
-    Player players[MAX_PLAYERS] = {0};
-    int connected = 0;
-
 
     while (1)
     {
