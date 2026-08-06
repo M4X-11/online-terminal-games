@@ -10,6 +10,7 @@
 #include <arpa/inet.h>
 
 Address addr;
+Player user;
 int startConnection(){
     printf("connecting...");
     fflush(stdout);
@@ -32,5 +33,6 @@ int startConnection(){
         
     }
     printf("\nconnected to server.\n");
+    recv(network_socket, &user.me, sizeof(int), 0);
     return 0;
 }

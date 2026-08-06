@@ -1,46 +1,75 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <sys/select.h>
-//#include "common.h"
-#include <time.h>
+
+#include "Snetwork.h"
 #include "commands.h"
+#include "playerState.h"
 
-int main(){
+
+int main()
+{
     int mode;
-    printf("Welcome to online terminal games\n");
-    printf("\ngame modes:\nsnake[1]\nTicTacToe[2]");
-    scanf("%d", &mode);
 
-    char line[1024];
+    printf("Welcome to online terminal games\n");
+    printf("snake[1]\nTicTacToe[2]\n");
+
+    scanf("%d", &mode);
+    getchar();
+
+
+    startServer();
+
+
+    Player players[MAX_PLAYERS] = {0};
+    int connected = 0;
+
+
     while (1)
     {
-        printf("TOG$ ");
-        fflush(stdout);
+        fd_set readfds;
 
-        if (fgets(line, sizeof(line), stdin)==NULL || strcmp(line, "exit\n")==0) {
-            printf("\nBye\n");
-            break;
+        FD_ZERO(&readfds);
+
+        FD_SET(STDIN_FILENO, &readfds);
+        FD_SET(server_socket, &readfds);
+
+
+        int max_fd = server_socket;
+
+        if (STDIN_FILENO > max_fd)
+            max_fd = STDIN_FILENO;
+
+
+        select(max_fd + 1, &readfds, NULL, NULL, NULL);
+
+
+        if (FD_ISSET(STDIN_FILENO, &readfds))
+        {
+            char line[1024];
+
+            if (fgets(line, sizeof(line), stdin) == NULL)
+                break;
+
+            cmd(tokens(line));
         }
 
 
+        if (FD_ISSET(server_socket, &readfds))
+        {
+            int client = acceptPlayer(players, &connected);
 
-        if (line[0]=='\n') {
-            continue;
+            if (client >= 0)
+            {
+                printf(
+                    "Player connected (%d/%d)\n",
+                    connected,
+                    MAX_PLAYERS
+                );
+            }
         }
-        
-        line[strlen(line) -1] = '\0';
-        printf("You entered: %s\n", line);
-        //idkvro(line);
-        //tokens(line);
-
-        //cmd(&line);
-
-        cmd(tokens(line));
     }
+
 
     return 0;
 }

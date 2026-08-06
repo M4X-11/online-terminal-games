@@ -8,6 +8,13 @@ typedef struct {
     int port;
 } Address;
 
+typedef struct {
+    char username[20];
+    int me;
+} Player;
+
+extern Player user;
+
 extern Address addr;
 int startConnection();
 #endif

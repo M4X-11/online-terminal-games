@@ -6,9 +6,13 @@
 #include <netinet/in.h>
 #include <sys/select.h>
 
+
+#include "Snetwork.h"
+#include "playerState.h"
+int server_socket;
 int startServer(){
     //srand(time(NULL));
-    int server_socket;
+    //int server_socket;
     //int connected = 0;
     // Create socket
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -40,4 +44,27 @@ int startServer(){
     // Listen
     listen(server_socket, 5);
     return 0;
+}
+
+int acceptPlayer(Player *players, int *connected)
+{
+    int client = accept(server_socket, NULL, NULL);
+
+    if (client < 0)
+        return -1;
+
+
+    if (*connected >= MAX_PLAYERS)
+    {
+        close(client);
+        return -1;
+    }
+
+
+    players[*connected].socket = client;
+    players[*connected].connected = 1;
+
+    (*connected)++;
+
+    return client;
 }

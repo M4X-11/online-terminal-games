@@ -45,6 +45,29 @@ int main(){
             while (getchar() != '\n');
         }
     } while (result != 1);
+    printf("Welcome to online terminal games!\n");
+    char n='t';
+    
+    while (n=='t')
+    {
+        printf("Enter an username: ");
+        fflush(stdout);
+
+        if (fgets(user.username, sizeof(user.username), stdin)==NULL || strcmp(user.username, "exit\n")==0) {
+            printf("\nBye\n");
+            break;
+        }
+
+
+
+        if (addr.ip[0]=='\n') {
+            continue;
+        }
+        
+        user.username[strlen(user.username) -1] = '\0';
+        n='f';
+        
+    }
 
     //network
     startConnection();
