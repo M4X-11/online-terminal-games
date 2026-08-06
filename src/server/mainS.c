@@ -54,6 +54,12 @@ int main()
                 break;
             }
 
+            if (line[0]=='\n') {
+                continue;
+            }
+            
+            line[strlen(line) -1] = '\0';
+
             cmd(tokens(line));
         }
 
