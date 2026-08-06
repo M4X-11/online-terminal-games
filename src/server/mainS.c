@@ -27,6 +27,8 @@ int main()
 
     while (1)
     {
+        printf("OTG$ ");
+        fflush(stdout);
         fd_set readfds;
 
         FD_ZERO(&readfds);
@@ -48,8 +50,10 @@ int main()
         {
             char line[1024];
 
-            if (fgets(line, sizeof(line), stdin) == NULL)
+            if (fgets(line, sizeof(line), stdin)==NULL || strcmp(line, "exit\n")==0) {
+                printf("\nBye\n");
                 break;
+            }
 
             cmd(tokens(line));
         }
