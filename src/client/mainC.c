@@ -45,11 +45,12 @@ int main(){
             while (getchar() != '\n');
         }
     } while (result != 1);
-    printf("Welcome to online terminal games!\n");
+    
     char n='t';
     
     while (n=='t')
     {
+        getchar();
         printf("Enter an username: ");
         fflush(stdout);
 

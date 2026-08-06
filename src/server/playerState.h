@@ -7,6 +7,7 @@ typedef struct Player
 {
     int socket;
     int connected;
+    char username[20];
 } Player;
 
 extern Player players[MAX_PLAYERS];

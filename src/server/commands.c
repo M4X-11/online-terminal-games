@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Snetwork.h"
 
 
 int strt=0;
@@ -40,7 +41,9 @@ int cmd(char** args) {
         printf("starting TicTacToe\n"); 
     }
     if (args[1] != NULL && strcmp(args[1], "players") == 0 && ls == 1) { 
-        printf("starting TicTacToe\n"); 
+        for (int i=0; i<(connected-1); i++){
+            printf("player[%d]: %s\n", i, players[i].username);
+        }
     }
     
     ls=0;
