@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/select.h>
-
+#include <string.h>
 #include "Snetwork.h"
 #include "commands.h"
 #include "playerState.h"
