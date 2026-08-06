@@ -6,6 +6,8 @@
 #include "commands.h"
 #include "playerState.h"
 
+Player players[MAX_PLAYERS] = {0};
+int connected = 0;
 
 int main()
 {

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Snetwork.h"
+#include "playerState.h"
 
 
 int strt=0;
