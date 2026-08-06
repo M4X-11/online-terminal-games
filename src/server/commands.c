@@ -42,7 +42,7 @@ int cmd(char** args) {
         printf("starting TicTacToe\n"); 
     }
     if (args[1] != NULL && strcmp(args[1], "players") == 0 && ls == 1) { 
-        for (int i=0; i<(connected-1); i++){
+        for (int i=0; i<(connected); i++){
             printf("player[%d]: %s\n", i, players[i].username);
         }
     }
