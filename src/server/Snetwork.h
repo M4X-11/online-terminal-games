@@ -10,5 +10,6 @@ extern int connected;
 
 int startServer();
 int acceptPlayer(Player *players, int *connected);
+int disconnectPlayer(int id);
 
 #endif

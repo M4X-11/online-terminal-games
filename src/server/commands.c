@@ -46,6 +46,11 @@ int cmd(char** args) {
             printf("player[%d]: %s\n", i, players[i].username);
         }
     }
+    if (strcmp(args[0], "kick") == 0) { 
+        if (args[1] != NULL){printf("no player id given\n"); return 0;}
+        int numid = args[1] - '0';
+        disconnectPlayer(numid);
+    }
     
     ls=0;
     strt = 0;
