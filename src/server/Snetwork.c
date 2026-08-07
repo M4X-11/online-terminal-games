@@ -74,4 +74,5 @@ int acceptPlayer(Player *players, int *connected)
 
 int disconnectPlayer(int id){
     close(players[id].socket);
+    return 0;
 }
