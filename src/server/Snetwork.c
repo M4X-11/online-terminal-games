@@ -72,7 +72,61 @@ int acceptPlayer(Player *players, int *connected)
     return client;
 }
 
-int disconnectPlayer(int id){
+int disconnectPlayer(Player *players, int id){
     close(players[id].socket);
     return 0;
+}
+
+//////
+int recv_all(int sock, void *buffer, size_t length)
+{
+    char *ptr = (char *)buffer;
+    size_t total = 0;
+
+    while (total < length)
+    {
+        ssize_t received = recv(sock,
+                                ptr + total,
+                                length - total,
+                                0);
+
+        if (received == 0)
+        {
+            // Peer closed the connection
+            return 0;
+        }
+
+        if (received < 0)
+        {
+            // Socket error
+            return -1;
+        }
+
+        total += received;
+    }
+
+    return (int)total;
+}
+
+int send_all(int sock, const void *buffer, size_t length)
+{
+    const char *ptr = (const char *)buffer;
+    size_t total = 0;
+
+    while (total < length)
+    {
+        ssize_t sent = send(sock,
+                            ptr + total,
+                            length - total,
+                            0);
+
+        if (sent <= 0)
+        {
+            return -1;
+        }
+
+        total += sent;
+    }
+
+    return (int)total;
 }
