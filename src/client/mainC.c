@@ -61,7 +61,7 @@ int main(){
 
 
 
-        if (addr.ip[0]=='\n') {
+        if (user.username[0]=='\n') {
             continue;
         }
         
@@ -73,5 +73,10 @@ int main(){
     //network
     startConnection();
 
+    while (1)
+    {
+        
+    }
+    
     return 0;
 }

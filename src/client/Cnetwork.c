@@ -34,6 +34,6 @@ int startConnection(){
     }
     printf("\nconnected to server.\n");
     recv(network_socket, &user.me, sizeof(int), 0);
-    send(network_socket, &user.username, sizeof(user.username), 0);
+    send(network_socket, user.username, sizeof(user.username), 0);
     return 0;
 }
