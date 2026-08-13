@@ -96,7 +96,8 @@ int send_all(int sock, const void *buffer, size_t length)
 }
 
 int sendVote(int vote){
-    send_all(network_socket, MSG_VOTE, sizeof(int));
-    send_all(network_socket, vote, sizeof(int));
+    int r=MSG_VOTE;
+    send_all(network_socket, &r, sizeof(int));
+    send_all(network_socket, &vote, sizeof(int));
     return 0;
 }

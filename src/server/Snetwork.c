@@ -141,8 +141,9 @@ int sendPackage(int sock, const void* buffer, size_t lenght, int action){
     default:
         break;
     }
-    send_all(sock, action, sizeof(int));
-    send_all(sock, buffer, lenght);
+    send_all(sock, &action, sizeof(int));
+    send_all(sock, &buffer, lenght);
+    return 0;
 }
 
 int readPackage(int sock){
