@@ -11,11 +11,12 @@
 
 Address addr;
 Player user;
+int network_socket;
 int startConnection(){
     printf("connecting...");
     fflush(stdout);
     //create
-    int network_socket;
+
     network_socket = socket(AF_INET, SOCK_STREAM, 0);
 
     //specify
@@ -35,5 +36,67 @@ int startConnection(){
     printf("\nconnected to server.\n");
     recv(network_socket, &user.me, sizeof(int), 0);
     send(network_socket, user.username, sizeof(user.username), 0);
+    return 0;
+}
+
+
+
+//////
+int recv_all(int sock, void *buffer, size_t length)
+{
+    char *ptr = (char *)buffer;
+    size_t total = 0;
+
+    while (total < length)
+    {
+        ssize_t received = recv(sock,
+                                ptr + total,
+                                length - total,
+                                0);
+
+        if (received == 0)
+        {
+            // Peer closed the connection
+            return 0;
+        }
+
+        if (received < 0)
+        {
+            // Socket error
+            return -1;
+        }
+
+        total += received;
+    }
+
+    return (int)total;
+}
+
+int send_all(int sock, const void *buffer, size_t length)
+{
+    const char *ptr = (const char *)buffer;
+    size_t total = 0;
+
+    while (total < length)
+    {
+        ssize_t sent = send(sock,
+                            ptr + total,
+                            length - total,
+                            0);
+
+        if (sent <= 0)
+        {
+            return -1;
+        }
+
+        total += sent;
+    }
+
+    return (int)total;
+}
+
+int sendVote(int vote){
+    send_all(network_socket, MSG_VOTE, sizeof(int));
+    send_all(network_socket, vote, sizeof(int));
     return 0;
 }

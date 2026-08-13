@@ -75,7 +75,12 @@ int main(){
 
     while (1)
     {
-        
+        int num;
+        printf("Vote on gamemode.\n");
+        printf("snake 0.\n");
+        printf("TTT 1.\n");
+        scanf("%d", &num);
+        sendVote(num);
     }
     
     return 0;

@@ -130,3 +130,38 @@ int send_all(int sock, const void *buffer, size_t length)
 
     return (int)total;
 }
+
+int sendPackage(int sock, const void* buffer, size_t lenght, int action){
+    switch (action)
+    {
+    case MSG_VOTE:
+        /* code */
+        break;
+    
+    default:
+        break;
+    }
+    send_all(sock, action, sizeof(int));
+    send_all(sock, buffer, lenght);
+}
+
+int readPackage(int sock){
+    int action;
+    int vote=0;
+    recv_all(sock, &action, sizeof(int));
+    switch (action)
+    {
+    case MSG_VOTE:
+        recv_all(sock, &vote, sizeof(int));
+        break;
+    
+    default:
+        break;
+    }
+    
+
+    return vote;
+    
+}
+// PAYLOADS
+

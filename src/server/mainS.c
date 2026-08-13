@@ -35,6 +35,9 @@ int main()
         FD_SET(STDIN_FILENO, &readfds);
         FD_SET(server_socket, &readfds);
 
+        for (int i = 0; i < MAX_PLAYERS; i++){
+            FD_SET(players[i].socket, &readfds);}
+
 
         int max_fd = server_socket;
 
@@ -75,6 +78,16 @@ int main()
                     connected,
                     MAX_PLAYERS
                 );
+            }
+        }
+        for (int i = 0; i < MAX_PLAYERS; i++)
+        {
+            if (FD_ISSET(players[i].socket, &readfds))
+            {
+                int o= readPackage(players[i].socket);
+                printf("\n%d", o);
+                //extract_packet(...);
+                //handle_packet(...);
             }
         }
     }
