@@ -8,6 +8,7 @@
 #include "data.h"
 #include <time.h>
 
+int currentGameMode; 
 int main(){
     //Address addr;
     printf("Welcome to online terminal games!\n");

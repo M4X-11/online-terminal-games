@@ -19,7 +19,7 @@ extern Address addr;
 int startConnection();
 
 ////
-
+extern int currentGameMode; // 0 = none, 1 = snake, 2 = ttt
 
 typedef enum
 {
@@ -28,7 +28,8 @@ typedef enum
     MSG_START_GAME,
     MSG_MOVE,
     MSG_PLAYER_LIST,
-    MSG_VOTE
+    MSG_VOTE,
+    MSG_MODE
 } MessageType;
 
 typedef struct

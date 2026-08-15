@@ -37,14 +37,17 @@ int cmd(char** args) {
     
     // Safely check if args[1] exists here too
     if (args[1] != NULL && strcmp(args[1], "snake") == 0 && strt == 1) { 
-        printf("starting snake\n"); 
+        printf("starting snake\n");
+        sendMode(SNAKE);
+        
     }
     if (args[1] != NULL && strcmp(args[1], "ttt") == 0 && strt == 1) { 
-        printf("starting TicTacToe\n"); 
+        printf("starting TicTacToe\n");
+        sendMode(TTT);
     }
     if (args[1] != NULL && strcmp(args[1], "players") == 0 && ls == 1) { 
         for (int i=0; i<(connected); i++){
-            printf("player[%d]: %s\n", i, players[i].username);
+            printf("\nplayer[%d]: %s\n", i, players[i].username);
         }
     }
     if (strcmp(args[0], "kick") == 0) { 

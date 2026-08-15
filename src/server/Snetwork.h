@@ -18,6 +18,8 @@ int send_all(int sock, const void *buffer, size_t length);
 
 int readPackage(int sock);
 
+int sendMode(int mode);
+
 typedef enum
 {
     MSG_LOGIN,
@@ -25,8 +27,15 @@ typedef enum
     MSG_START_GAME,
     MSG_MOVE,
     MSG_PLAYER_LIST,
-    MSG_VOTE
+    MSG_VOTE,
+    MSG_MODE
 } MessageType;
+
+typedef enum
+{
+    SNAKE,
+    TTT
+} Gmode;
 
 typedef struct
 {

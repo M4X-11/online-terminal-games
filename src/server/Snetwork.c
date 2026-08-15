@@ -9,6 +9,7 @@
 
 #include "Snetwork.h"
 #include "playerState.h"
+#include "Snetwork.h"
 int server_socket;
 int startServer(){
     //srand(time(NULL));
@@ -73,7 +74,27 @@ int acceptPlayer(Player *players, int *connected)
 }
 
 int disconnectPlayer(Player *players, int id){
-    close(players[id].socket);
+    if (id < 0 || id >= MAX_PLAYERS)
+        return -1;
+
+    if (players[id].socket > 0)
+        close(players[id].socket);
+
+    /* Shift later players down to keep the array compact */
+    for (int i = id; i < connected - 1; i++)
+    {
+        players[i] = players[i + 1];
+    }
+
+    /* Clear last slot */
+    if (connected > 0)
+    {
+        players[connected - 1].socket = 0;
+        players[connected - 1].connected = 0;
+        memset(players[connected - 1].username, 0, sizeof(players[connected - 1].username));
+        connected--;
+    }
+
     return 0;
 }
 
@@ -141,8 +162,24 @@ int sendPackage(int sock, const void* buffer, size_t lenght, int action){
     default:
         break;
     }
+    /* send action first, then payload (if any) */
     send_all(sock, &action, sizeof(int));
-    send_all(sock, &buffer, lenght);
+
+    if (buffer != NULL && lenght > 0)
+        send_all(sock, buffer, lenght);
+    return 0;
+}
+
+int sendMode(int mode){
+
+    int action = MSG_MODE;
+    for (int i = 0; i < connected; i++)
+    {
+        send_all(players[i].socket, &action, sizeof(int));
+        send_all(players[i].socket, &mode, sizeof(int));
+    
+    }
+    
     return 0;
 }
 

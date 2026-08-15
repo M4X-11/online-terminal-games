@@ -8,6 +8,23 @@
 
 Player players[MAX_PLAYERS] = {0};
 int connected = 0;
+int currentGameMode = 0; // 0 = none, 1 = snake, 2 = ttt
+
+int initGmae(int mode) {
+    if (mode == 1) {
+        printf("Starting Snake Game...\n");
+        // Add logic to start Snake game
+        sendMode(SNAKE);
+
+    } else if (mode == 2) {
+        printf("Starting Tic-Tac-Toe Game...\n");
+        // Add logic to start Tic-Tac-Toe game
+        sendMode(TTT);
+    } else {
+        printf("Invalid mode selected.\n");
+    }
+    return 0;
+}
 
 int main()
 {
@@ -101,7 +118,15 @@ int main()
 
             line[strcspn(line, "\n")] = '\0';
 
-            cmd(tokens(line));
+            {
+                char **toks = tokens(line);
+                cmd(toks);
+
+                /* free tokenized input */
+                for (int i = 0; toks[i] != NULL; i++)
+                    free(toks[i]);
+                free(toks);
+            }
         }
 
         /*
@@ -151,6 +176,8 @@ int main()
                     i,
                     o
                 );
+                printf("OTG$ ");
+                fflush(stdout);
             }
         }
     }
