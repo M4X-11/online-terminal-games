@@ -10,6 +10,9 @@
 #include <arpa/inet.h>
 #include "snake/snakecom.h"
 
+/* Forward declaration of client-side startMode implemented in CgameHandler.c */
+int startMode(int mode);
+
 Address addr;
 Player user;
 int network_socket;
@@ -121,6 +124,8 @@ int getData(){
     if (action == MSG_MODE){
         recv_all(network_socket, &currentGameMode, sizeof(int));
         printf("\ncurrent game mode: %d\n", currentGameMode);
+        /* Start the corresponding mode on the client */
+        startMode(currentGameMode);
     }
     if (action == MSG_UPDATE_SNAKE){
         recv_all(network_socket, &packet, sizeof(packet));

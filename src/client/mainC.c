@@ -180,9 +180,9 @@ int main(){
         * =========================
         */
 
-        if (FD_ISSET(network_socket, &readfds))
+            if (FD_ISSET(network_socket, &readfds))
         {
-            getData(network_socket);
+            getData();
 
             /*
             * Update local game state.
