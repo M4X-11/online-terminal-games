@@ -230,7 +230,7 @@ int SnakeGameLoop()
                 //send(game.players[i].socket, &packet, sizeof(packet), 0);
 
                 PacketHeader header;
-                header.type = MSG_UPDATE_GAME;
+                header.type = MSG_UPDATE_SNAKE;
                 header.length = sizeof(packet);
                 send_all(game.players[i].socket, &header, sizeof(header));
                 send_all(game.players[i].socket, &packet, sizeof(packet));

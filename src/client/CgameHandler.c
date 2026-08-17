@@ -137,7 +137,7 @@ int gameLoop(){
                 current_game->update(game_memory);
         }
             
-            getData();
+            //getData();
         
     
 
