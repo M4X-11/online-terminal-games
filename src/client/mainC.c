@@ -83,113 +83,80 @@ int main(){
         printf("Vote on gamemode.\n");
         printf("snake 0.\n");
         printf("TTT 1.\n");
-        scanf("%d", &num);
+
+        if (scanf("%d", &num) != 1)
+        {
+            while (getchar() != '\n')
+                ;
+            continue;
+        }
+
+        while (getchar() != '\n')
+            ;
+
         sendVote(num);
-        break; // exit voting loop and continue to main input loop
 
-        ///
-        fd_set readfds;
-
-        FD_ZERO(&readfds);
-
-        FD_SET(STDIN_FILENO, &readfds);
-        FD_SET(network_socket, &readfds);
-
-        int max_fd = network_socket;
-
-        if (STDIN_FILENO > max_fd)
-            max_fd = STDIN_FILENO;
-
-        }
         while (running)
-    {
-        fd_set readfds;
-
-        FD_ZERO(&readfds);
-
-        FD_SET(STDIN_FILENO, &readfds);
-        FD_SET(network_socket, &readfds);
-
-        int max_fd = network_socket;
-
-        if (STDIN_FILENO > max_fd)
-            max_fd = STDIN_FILENO;
-
-
-        /*
-        * Wait until either:
-        *
-        *   1. keyboard input exists
-        *   2. server data exists
-        */
-        int ret = select(
-            max_fd + 1,
-            &readfds,
-            NULL,
-            NULL,
-            NULL
-        );
-
-        if (ret < 0)
         {
-            if (errno == EINTR)
-                continue;
+            fd_set readfds;
 
-            perror("select");
-            break;
-        }
+            FD_ZERO(&readfds);
+            FD_SET(STDIN_FILENO, &readfds);
+            FD_SET(network_socket, &readfds);
 
+            int max_fd = network_socket;
+            if (STDIN_FILENO > max_fd)
+                max_fd = STDIN_FILENO;
 
-        /*
-        * =========================
-        * KEYBOARD
-        * =========================
-        */
-
-        if (FD_ISSET(STDIN_FILENO, &readfds))
-        {
-            int key = getch();
-
-            switch (key)
+            int ret = select(max_fd + 1, &readfds, NULL, NULL, NULL);
+            if (ret < 0)
             {
-                case KEY_UP:
-                    sendDirection(network_socket, UP);
-                    break;
+                if (errno == EINTR)
+                    continue;
 
-                case KEY_DOWN:
-                    sendDirection(network_socket, DOWN);
-                    break;
+                perror("select");
+                break;
+            }
 
-                case KEY_LEFT:
-                    sendDirection(network_socket, LEFT);
-                    break;
+            if (current_game != NULL && FD_ISSET(STDIN_FILENO, &readfds))
+            {
+                int key = getch();
 
-                case KEY_RIGHT:
-                    sendDirection(network_socket, RIGHT);
-                    break;
+                switch (key)
+                {
+                    case KEY_UP:
+                        sendDirection(network_socket, UP);
+                        break;
 
-                case 'q':
-                    running = 0;
-                    break;
+                    case KEY_DOWN:
+                        sendDirection(network_socket, DOWN);
+                        break;
+
+                    case KEY_LEFT:
+                        sendDirection(network_socket, LEFT);
+                        break;
+
+                    case KEY_RIGHT:
+                        sendDirection(network_socket, RIGHT);
+                        break;
+
+                    case 'q':
+                        running = 0;
+                        break;
+                }
+            }
+
+            if (FD_ISSET(network_socket, &readfds))
+            {
+                getData();
+                if (current_game != NULL)
+                    gameLoop();
             }
         }
 
-
-        /*
-        * =========================
-        * SERVER
-        * =========================
-        */
-
-            if (FD_ISSET(network_socket, &readfds))
-        {
-            getData();
-
-            /*
-            * Update local game state.
-            */
-            gameLoop();
-        }
+        if (!running)
+            break;
     }
+
     return 0;
 }

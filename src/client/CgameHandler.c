@@ -128,18 +128,11 @@ int gameLoop(){
 
     
         if (current_game != NULL) {
-            // Render the active game frame
+            // Apply the newest game state before drawing so the screen
+            // reflects the latest packet from the server.
+            current_game->update(game_memory);
             current_game->render(game_memory);
-
-            
-
-                // Advance game logic by 1 input step
-                current_game->update(game_memory);
         }
-            
-            //getData();
-        
-    
 
     //printf("\nEngine terminated cleanly.\n");
     return 0;

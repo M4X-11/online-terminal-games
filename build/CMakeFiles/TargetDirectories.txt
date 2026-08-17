@@ -1,0 +1,4 @@
+/home/kali/Desktop/online-terminal-games/build/CMakeFiles/game_client.dir
+/home/kali/Desktop/online-terminal-games/build/CMakeFiles/game_server.dir
+/home/kali/Desktop/online-terminal-games/build/CMakeFiles/edit_cache.dir
+/home/kali/Desktop/online-terminal-games/build/CMakeFiles/rebuild_cache.dir

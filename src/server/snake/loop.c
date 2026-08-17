@@ -234,6 +234,7 @@ int SnakeGameLoop()
                 header.length = sizeof(packet);
                 send_all(game.players[i].socket, &header, sizeof(header));
                 send_all(game.players[i].socket, &packet, sizeof(packet));
+                printf("packet sent to player[%d]\n", i);
             }
         
         }

@@ -127,9 +127,9 @@ int getData(){
         /* Start the corresponding mode on the client */
         startMode(currentGameMode);
     }
-    if (action == MSG_UPDATE_SNAKE){
+    if (action == MSG_UPDATE_GAME){
         recv_all(network_socket, &packet, sizeof(packet));
-        //printf("current game mode: %d\n", currentGameMode);
+        snakeUpdate();
     }
     return 0;
 }
