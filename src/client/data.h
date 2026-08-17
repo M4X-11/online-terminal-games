@@ -16,6 +16,9 @@ typedef struct {
 extern Player user;
 
 extern Address addr;
+
+int Sdispl();
+
 int startConnection();
 int getData();
 int send_all(int sock, const void *buffer, size_t length);

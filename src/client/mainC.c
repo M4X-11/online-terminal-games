@@ -85,6 +85,7 @@ int main(){
         printf("TTT 1.\n");
         scanf("%d", &num);
         sendVote(num);
+        break; // exit voting loop and continue to main input loop
 
         ///
         fd_set readfds;

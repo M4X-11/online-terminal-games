@@ -64,13 +64,15 @@ static void snake_render(void *state) {
     (void)s;
     //printf("\n--- SNAKE GAME | Length: %d | Score: %d ---\n", s->length, s->score);
     //printf("Controls: Move (w/a/s/d) | Return to menu (q)\n");
-    int Sdispl();
-    //refresh();
+    /* call the snake display function defined in snakeRender.c */
+    Sdispl();
 }
 
 static void snake_cleanup(void *state) {
     free(state); // Free game-specific allocated state
     printf("[Snake] Cleaned up memory!\n");
+    /* restore terminal state */
+    endwin();
 }
 
 static void snake_net(void *state, int input) {
