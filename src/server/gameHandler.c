@@ -98,6 +98,7 @@ int gameLoop(void)
     if (app_state == STATE_IN_GAME && current_game != NULL) {
         current_game->update(game_memory);
         //current_game->render(game_memory);
+        printf("\nRunning game loop for %s...\n", current_game->name);
     }
 
     return 0;

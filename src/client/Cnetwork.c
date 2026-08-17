@@ -129,7 +129,10 @@ int getData(){
     }
     if (action == MSG_UPDATE_SNAKE){
         recv_all(network_socket, &packet, sizeof(packet));
-        //printf("current game mode: %d\n", currentGameMode);
+        printf("Got Packet: connections=%d, apple=(%d,%d), player[0]=(%d,%d,%d)\n",
+               packet.connections,
+               packet.apple[0].x, packet.apple[0].y,
+               packet.players[0].x, packet.players[0].y, packet.players[0].points);
     }
     return 0;
 }
