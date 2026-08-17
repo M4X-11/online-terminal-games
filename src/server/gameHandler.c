@@ -86,19 +86,22 @@ int gameLoop(void)
 
     clock_gettime(CLOCK_MONOTONIC, &now);
 
-    long elapsed_ms =
-        (now.tv_sec - last_update.tv_sec) * 1000L +
-        (now.tv_nsec - last_update.tv_nsec) / 1000000L;
-
-    if (elapsed_ms >= 100) {
-        getData();
+    // Initialize baseline timing on first frame
+    if (last_update.tv_sec == 0 && last_update.tv_nsec == 0) {
         last_update = now;
+        return 0;
     }
 
-    if (app_state == STATE_IN_GAME && current_game != NULL) {
-        current_game->update(game_memory);
-        //current_game->render(game_memory);
-        printf("\nRunning game loop for %s...\n", current_game->name);
+    long elapsed_ms = (now.tv_sec - last_update.tv_sec) * 1000L +
+                      (now.tv_nsec - last_update.tv_nsec) / 1000000L;
+
+    // Execute state update & state network sync at 10 FPS (100ms)
+    if (elapsed_ms >= 100) {
+        last_update = now;
+
+        if (app_state == STATE_IN_GAME && current_game != NULL) {
+            current_game->update(game_memory);
+        }
     }
 
     return 0;
