@@ -12,7 +12,7 @@ Player players[MAX_PLAYERS] = {0};
 int connected = 0;
 int currentGameMode = 0; // 0 = none, 1 = snake, 2 = ttt
 
-int initGmae(int mode) {
+int initGame(int mode) {
     if (mode == 1) {
         printf("Starting Snake Game...\n");
         // Add logic to start Snake game
@@ -185,6 +185,7 @@ int main()
         ///////GAME LOOP
         if (currentGameMode != 0) {
             gameLoop();
+            printf("Game loop running for mode %d\n", currentGameMode);
         }
     }
 
