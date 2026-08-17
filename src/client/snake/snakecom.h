@@ -19,7 +19,7 @@ typedef struct {
     int y;
 } Fire;
 
-Fire fire[20];
+//Fire fire[20];
 
 typedef struct {
 
@@ -40,7 +40,7 @@ typedef struct {
     Snake snake;
     int connected;
     char dead;
-} Player;
+} SPlayer;
 
 //Player players[MAX_PLAYERS];
 
@@ -58,16 +58,18 @@ typedef struct {
     char ability;
 } Cpacket;
 
-Cpacket clientPacket;
+extern Cpacket clientPacket;
 
 typedef struct {
 
     AppleS apple[MAX_PLAYERS];
-    Player players[MAX_PLAYERS];
+    SPlayer players[MAX_PLAYERS];
     int connections;
 } Package;
 
-Package game;
+extern Package game;
+int Sdispl();
+int snakeUpdate();
 
 ////////
 
@@ -86,6 +88,6 @@ typedef struct {
     PlayerP players[MAX_PLAYERS];
     int connections;
 } Packets;
-Packets packet;
+extern Packets packet;
 
-int me;
+//int me;

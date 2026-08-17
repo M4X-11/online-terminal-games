@@ -4,6 +4,7 @@
 #include "Snetwork.h"
 #include "playerState.h"
 #include <errno.h>
+#include "gameHandler.h"
 
 
 int strt=0;
@@ -38,12 +39,14 @@ int cmd(char** args) {
     // Safely check if args[1] exists here too
     if (args[1] != NULL && strcmp(args[1], "snake") == 0 && strt == 1) { 
         printf("starting snake\n");
-        sendMode(SNAKE);
+        //sendMode(SNAKE);
+        startMode(SNAKE);
         
     }
     if (args[1] != NULL && strcmp(args[1], "ttt") == 0 && strt == 1) { 
         printf("starting TicTacToe\n");
-        sendMode(TTT);
+        //sendMode(TTT);
+        startMode(TTT);
     }
     if (args[1] != NULL && strcmp(args[1], "players") == 0 && ls == 1) { 
         for (int i=0; i<(connected); i++){

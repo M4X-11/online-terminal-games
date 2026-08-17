@@ -8,12 +8,13 @@
 #include <ncurses.h>
 #include <arpa/inet.h>
 #include "snakecom.h"
+#include "../data.h"
 
-int displ()
+int Sdispl()
 {
     clear();
 
-    mvprintw(0, 0, "Points: %d", packet.players[me].points);
+    mvprintw(0, 0, "Points: %d", packet.players[user.me].points);
 
     for (int i = 0; i < 47; i++)
         mvaddch(1, i, '#');
@@ -46,7 +47,7 @@ int displ()
         attroff(COLOR_PAIR(i+1));
     }
     
-    if (packet.players[me].dead=='d'){
+    if (packet.players[user.me].dead=='d'){
         mvprintw(20, 0, "DEAD");
     }
 

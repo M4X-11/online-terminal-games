@@ -1,48 +1,63 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 project(TerminalGameEngine C)
 
-# Enable C99 standard and strict compiler warnings
+# ============================================================================
+# 1. COMPILER FLAGS & STANDARDS
+# ============================================================================
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# Strict warnings treated as errors
 add_compile_options(-Wall -Wextra -Werror -pedantic)
 
-# Tell CMake where to look for .h headers
-include_directories(src)
-
-# Find ncurses for the client UI
+# ============================================================================
+# 2. DEPENDENCIES
+# ============================================================================
 find_package(Curses REQUIRED)
 
 # ============================================================================
-# 1. GATHER SOURCE FILES
+# 3. DYNAMICALLY DISCOVER EXISTING SOURCE FILES
 # ============================================================================
 
-# Code shared by BOTH Client and Server
-file(GLOB COMMON_SOURCES "src/common/*.c")
-file(GLOB GAME_SOURCES   "src/games/*.c")
+# Automatically gather all existing .c files recursively
+file(GLOB_RECURSE CLIENT_SOURCES CONFIGURE_DEPENDS "src/client/*.c")
+file(GLOB_RECURSE SERVER_SOURCES CONFIGURE_DEPENDS "src/server/*.c")
+file(GLOB_RECURSE COMMON_SOURCES CONFIGURE_DEPENDS "src/common/*.c")
 
-# Code specific to Client or Server
-file(GLOB CLIENT_SOURCES "src/client/*.c")
-file(GLOB SERVER_SOURCES "src/server/*.c")
-
-
-# ============================================================================
-# 2. BUILD THE CLIENT EXECUTABLE
-# ============================================================================
-
-# game_client needs client code + game rules + shared protocol code
-add_executable(game_client ${CLIENT_SOURCES} ${GAME_SOURCES} ${COMMON_SOURCES})
-
-# Link ncurses ONLY to the client
-target_link_libraries(game_client ${CURSES_LIBRARIES})
-
+# Filter out mainSNEW.c or temporary files from the server list if present
+list(FILTER SERVER_SOURCES EXCLUDE REGEX ".*mainSNEW\\.c$")
 
 # ============================================================================
-# 3. BUILD THE SERVER EXECUTABLE
+# 4. GAME CLIENT TARGET
 # ============================================================================
+add_executable(game_client
+    ${CLIENT_SOURCES}
+    ${COMMON_SOURCES}
+)
 
-# game_server needs server code + game rules + shared protocol code
-add_executable(game_server ${SERVER_SOURCES} ${GAME_SOURCES} ${COMMON_SOURCES})
+target_include_directories(game_client PRIVATE
+    src
+    src/common
+    src/client
+    src/client/snake
+    ${CURSES_INCLUDE_DIR}
+)
 
-# (Optional) Link POSIX threads to server if using multi-threading
-# find_package(Threads REQUIRED)
-# target_link_libraries(game_server Threads::Threads)
+target_link_libraries(game_client PRIVATE
+    ${CURSES_LIBRARIES}
+)
+
+# ============================================================================
+# 5. GAME SERVER TARGET
+# ============================================================================
+add_executable(game_server
+    ${SERVER_SOURCES}
+    ${COMMON_SOURCES}
+)
+
+target_include_directories(game_server PRIVATE
+    src
+    src/common
+    src/server
+    src/server/snake
+)

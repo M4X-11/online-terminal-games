@@ -5,6 +5,8 @@
 #include "Snetwork.h"
 #include "commands.h"
 #include "playerState.h"
+#include "gameHandler.h"
+#include <stdlib.h>
 
 Player players[MAX_PLAYERS] = {0};
 int connected = 0;
@@ -179,6 +181,10 @@ int main()
                 printf("OTG$ ");
                 fflush(stdout);
             }
+        }
+        ///////GAME LOOP
+        if (currentGameMode != 0) {
+            gameLoop();
         }
     }
 

@@ -18,6 +18,8 @@ int send_all(int sock, const void *buffer, size_t length);
 
 int readPackage(int sock);
 
+int getData();
+
 int sendMode(int mode);
 
 typedef enum
@@ -28,7 +30,8 @@ typedef enum
     MSG_MOVE,
     MSG_PLAYER_LIST,
     MSG_VOTE,
-    MSG_MODE
+    MSG_MODE,
+    MSG_UPDATE_GAME
 } MessageType;
 
 typedef enum

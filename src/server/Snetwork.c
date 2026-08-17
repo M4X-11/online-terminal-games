@@ -10,6 +10,8 @@
 #include "Snetwork.h"
 #include "playerState.h"
 #include "Snetwork.h"
+#include "snake/loop.h"
+
 int server_socket;
 int startServer(){
     //srand(time(NULL));
@@ -172,10 +174,13 @@ int sendPackage(int sock, const void* buffer, size_t lenght, int action){
 
 int sendMode(int mode){
 
+    PacketHeader packet;
     int action = MSG_MODE;
+    packet.type=action;
+    packet.length=8;
     for (int i = 0; i < connected; i++)
     {
-        send_all(players[i].socket, &action, sizeof(int));
+        send_all(players[i].socket, &packet, sizeof(packet));
         send_all(players[i].socket, &mode, sizeof(int));
     
     }
@@ -200,6 +205,26 @@ int readPackage(int sock){
 
     return vote;
     
+}
+
+int getData(){
+    PacketHeader packet;
+    int action;
+    for (int i = 0; i < connected; i++)
+    {
+        recv_all(players[i].socket, &packet, sizeof(packet));
+        action=packet.type;
+        if (action == MSG_VOTE){
+            int vote=readPackage(players[i].socket);
+            printf("player[%d] voted: %d\n", i, vote);
+        }
+        if (action == MSG_MOVE){
+            recv_all(players[i].socket, &game.players[i].snake.direction, sizeof(int));
+            //printf("player[%d] moved: %d\n", i, game.players[i].snake.direction);
+        }
+    }
+    
+    return 0;
 }
 // PAYLOADS
 
