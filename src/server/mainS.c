@@ -299,6 +299,8 @@ int main()
         if (currentGameMode != 0)
         {
             gameLoop();
+            printf("Game loop running for mode %d\n", currentGameMode);
+            fflush(stdout);
         }
     }
 
