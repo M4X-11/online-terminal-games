@@ -179,7 +179,7 @@ int main()
                     players[i].socket,
                     &readfds))
             {
-                int o = readPackage(
+                readPackage(
                     players[i].socket, i
                 );
 
