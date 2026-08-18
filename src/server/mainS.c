@@ -381,7 +381,7 @@ int initGame(int mode) {
 
 
 
-//*
+//
 int main()
 {
     int mode;
@@ -404,7 +404,7 @@ int main()
         FD_ZERO(&readfds);
 
         //
-        //* Terminal
+        // Terminal
         //
         FD_SET(STDIN_FILENO, &readfds);
 
@@ -419,7 +419,7 @@ int main()
             max_fd = STDIN_FILENO;
 
         //
-        //* Existing players
+        // Existing players
         //
         for (int i = 0; i < MAX_PLAYERS; i++)
         {
@@ -433,7 +433,7 @@ int main()
         }
 
         //
-        //* Wait for something to happen.
+        // Wait for something to happen.
         //
         int ret = select(
             max_fd + 1,
@@ -449,11 +449,11 @@ int main()
             break;
         }
 
-        //*
-        //* =========================
-        //* TERMINAL
-        //* =========================
-        //*
+        //
+        // =========================
+        // TERMINAL
+        // =========================
+        //
 
         if (FD_ISSET(STDIN_FILENO, &readfds))
         {
@@ -485,10 +485,10 @@ int main()
             }
         }
 
-        //*
-        //* =========================
-        //* NEW CONNECTION
-        //* =========================
+        //
+        // =========================
+        // NEW CONNECTION
+        // =========================
         //
 
         if (FD_ISSET(server_socket, &readfds))
@@ -508,11 +508,11 @@ int main()
             }
         }
 
-        ///* =========================
-        //* =========================
-        //* PLAYER DATA
-        //* =========================
-        ///
+        // =========================
+        // =========================
+        // PLAYER DATA
+        // =========================
+        //
 
         for (int i = 0; i < MAX_PLAYERS; i++)
         {
@@ -542,4 +542,4 @@ int main()
 
 
     return 0;
-}//*/
+}*/
