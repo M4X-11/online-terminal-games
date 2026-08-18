@@ -8,6 +8,7 @@ typedef struct {
     void (*update)(void *state);
     void (*render)(void *state);
     void (*cleanup)(void *state);
+    void (*restart)(void *state);
 } GameMode;
 
 typedef enum {

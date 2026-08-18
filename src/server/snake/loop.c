@@ -20,6 +20,12 @@ Package game;
 Packets packet;
 Cpacket clientPacket;
 
+/*
+int snakeRestart(){
+    initSNAKE();
+    return 0;
+}*/
+
 void appleRand(int *x, int *y)
 {
     int min = 0;

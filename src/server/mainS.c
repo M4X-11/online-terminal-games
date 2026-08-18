@@ -131,7 +131,7 @@ int main()
         struct timeval timeout;
 
         timeout.tv_sec = 0;
-        timeout.tv_usec = 50000; // 50 ms
+        timeout.tv_usec = 100000; // 50 ms// 100 ms
 
 
         /*

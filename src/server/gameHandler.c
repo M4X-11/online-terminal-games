@@ -47,13 +47,22 @@ static void snake_cleanup(void *state) {
     printf("[Snake] Cleaned up memory!\n");
 }
 
+static void snake_restart(void *state) {
+    SnakeState *s = (SnakeState *)state;
+    printf("[Snake] Restarted game!\n");
+    initSNAKE();
+    (void)s;
+}
+
+
 // Instantiate the Snake "Cartridge"
 GameMode SnakeGame = {
     .name = "Snake",
     .init = snake_init,
     .update = snake_update,
     .render = snake_render,
-    .cleanup = snake_cleanup
+    .cleanup = snake_cleanup,
+    .restart = snake_restart
 };
 
 ////////////////
@@ -78,6 +87,8 @@ int startMode(int mode){
 
     return 0;
 }
+
+
 
 int gameLoop(void)
 {

@@ -38,6 +38,10 @@ int cmd(char** args) {
     
     // Safely check if args[1] exists here too
     if (args[1] != NULL && strcmp(args[1], "snake") == 0 && strt == 1) { 
+        if (current_game != NULL) {
+            printf("A game is already running. Please restart or exit the current game first.\n");
+            return 0;
+        }
         printf("starting snake\n");
         //sendMode(SNAKE);
         startMode(SNAKE);
@@ -72,6 +76,12 @@ int cmd(char** args) {
         }
 
         disconnectPlayer(players, (int)numid);
+    }
+    //restart
+    if (strcmp(args[0], "restart") == 0) { 
+        
+
+        current_game->update(game_memory);
     }
     
     ls=0;
