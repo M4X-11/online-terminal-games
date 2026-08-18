@@ -278,6 +278,8 @@ int main()
                     players[i].socket,
                     i
                 );
+                printf("got data from player %d\n", i);
+                fflush(stdout);
             }
         }
 
