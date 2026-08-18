@@ -278,7 +278,7 @@ int main()
                     players[i].socket,
                     i
                 );
-                printf("got data from player %d\n", i);
+                //printf("got data from player %d\n", i);
                 fflush(stdout);
             }
         }
@@ -300,7 +300,7 @@ int main()
         {
             gameLoop();
 
-            printf("Game loop running\n");
+            //printf("Game loop running\n");
             fflush(stdout);
         }
     }
