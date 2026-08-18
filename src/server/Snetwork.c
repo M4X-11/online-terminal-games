@@ -188,16 +188,21 @@ int sendMode(int mode){
     return 0;
 }
 
-int readPackage(int sock){
+int readPackage(int sock, int i){
+    PacketHeader packet;
     int action;
     int vote=0;
-    recv_all(sock, &action, sizeof(int));
+    recv_all(sock, &packet, sizeof(packet));
+    action=packet.type;
     switch (action)
     {
     case MSG_VOTE:
         recv_all(sock, &vote, sizeof(int));
         break;
-    
+    case MSG_MOVE:
+        recv_all(sock, &game.players[i].snake.direction, sizeof(int));
+        printf("player[%d] moved: %d\n", i, game.players[i].snake.direction);
+        break;
     default:
         break;
     }
@@ -210,21 +215,22 @@ int readPackage(int sock){
 int getData(){
     PacketHeader packet;
     int action;
+    int vote;
     for (int i = 0; i < connected; i++)
     {
         recv_all(players[i].socket, &packet, sizeof(packet));
         action=packet.type;
         if (action == MSG_VOTE){
-            int vote=readPackage(players[i].socket);
+            recv_all(players[i].socket, &vote, sizeof(int));
             printf("player[%d] voted: %d\n", i, vote);
         }
         if (action == MSG_MOVE){
             recv_all(players[i].socket, &game.players[i].snake.direction, sizeof(int));
-            //printf("player[%d] moved: %d\n", i, game.players[i].snake.direction);
+            printf("player[%d] moved: %d\n", i, game.players[i].snake.direction);
         }
     }
     
-    return 0;
+    return vote;
 }
 // PAYLOADS
 

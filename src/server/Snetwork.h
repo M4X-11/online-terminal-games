@@ -16,7 +16,7 @@ int disconnectPlayer(Player *players, int id);
 int recv_all(int sock, void *buffer, size_t length);
 int send_all(int sock, const void *buffer, size_t length);
 
-int readPackage(int sock);
+int readPackage(int sock, int i);
 
 int getData();
 

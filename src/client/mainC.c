@@ -183,6 +183,7 @@ int main(){
 
             if (FD_ISSET(network_socket, &readfds))
         {
+            printf("Data from server\n");
             getData();
 
             /*
