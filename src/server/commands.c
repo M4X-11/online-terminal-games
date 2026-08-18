@@ -81,7 +81,7 @@ int cmd(char** args) {
     if (strcmp(args[0], "restart") == 0) { 
         
 
-        current_game->update(game_memory);
+        current_game->restart(game_memory);
     }
     
     ls=0;
