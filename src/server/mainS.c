@@ -296,10 +296,11 @@ int main()
          * sending data.
          */
 
-        if (currentGameMode != 0)
+        if (app_state == STATE_IN_GAME && current_game != NULL)
         {
             gameLoop();
-            printf("Game loop running for mode %d\n", currentGameMode);
+
+            printf("Game loop running\n");
             fflush(stdout);
         }
     }
