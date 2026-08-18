@@ -91,7 +91,7 @@ int gameLoop(void)
         (now.tv_nsec - last_update.tv_nsec) / 1000000L;
 
     if (elapsed_ms >= 100) {
-        getData();
+        //getData();
         last_update = now;
     }
 

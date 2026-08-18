@@ -183,16 +183,13 @@ int main()
                     players[i].socket, i
                 );
 
-                printf(
-                    "\nPlayer %d: %d\n",
-                    i,
-                    o
-                );
+                
                 printf("OTG$ ");
                 fflush(stdout);
             }
         }
         ///////GAME LOOP
+        printf("wtf");
         if (currentGameMode != 0) {
             gameLoop();
             printf("Game loop running for mode %d\n", currentGameMode);
