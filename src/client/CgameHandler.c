@@ -31,9 +31,9 @@ static void snake_init(void **state) {
     s->score = 0;
     s->length = 3;
     *state = s; // Assign allocated memory back to generic pointer
-    printf("\n[Snake] Initialized game state!\n");
+    //printf("\n[Snake] Initialized game state!\n");
     //////
-    //*
+    /*
     initscr();
     cbreak();
     noecho();
@@ -49,7 +49,7 @@ static void snake_init(void **state) {
     init_pair(4, COLOR_BLUE,    COLOR_BLACK);
     init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(6, COLOR_CYAN,    COLOR_BLACK);
-    init_pair(7, COLOR_WHITE,   COLOR_BLACK);//*/
+    init_pair(7, COLOR_WHITE,   COLOR_BLACK);*/
 
 
 }
@@ -133,6 +133,8 @@ int gameLoop(){
             // reflects the latest packet from the server.
             current_game->update(game_memory);
             current_game->render(game_memory);
+        }else {
+            displayMenu();
         }
 
     //printf("\nEngine terminated cleanly.\n");

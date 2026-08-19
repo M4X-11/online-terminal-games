@@ -5,6 +5,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/select.h>
+#include <signal.h>
+#include <errno.h>
 #include "data.h"
 #include <time.h>
 #include <arpa/inet.h>
@@ -17,6 +19,8 @@ Address addr;
 Player user;
 int network_socket;
 int startConnection(){
+    signal(SIGPIPE, SIG_IGN);
+
     printf("connecting...");
     fflush(stdout);
     //create
@@ -86,12 +90,17 @@ int send_all(int sock, const void *buffer, size_t length)
         ssize_t sent = send(sock,
                             ptr + total,
                             length - total,
-                            0);
+                            MSG_NOSIGNAL);
 
-        if (sent <= 0)
+        if (sent < 0)
         {
+            if (errno == EINTR)
+                continue;
             return -1;
         }
+
+        if (sent == 0)
+            return -1;
 
         total += sent;
     }
@@ -123,16 +132,16 @@ int getData(){
     action=Cpacket.type;
     if (action == MSG_MODE){
         recv_all(network_socket, &currentGameMode, sizeof(int));
-        printf("\ncurrent game mode: %d\n", currentGameMode);
+        //printf("\ncurrent game mode: %d\n", currentGameMode);
         /* Start the corresponding mode on the client */
         startMode(currentGameMode);
     }
     if (action == MSG_UPDATE_SNAKE){
         recv_all(network_socket, &packet, sizeof(packet));
-        printf("Got Packet: connections=%d, apple=(%d,%d), player[0]=(%d,%d,%d)\n",
+        /*printf("Got Packet: connections=%d, apple=(%d,%d), player[0]=(%d,%d,%d)\n",
                packet.connections,
                packet.apple[0].x, packet.apple[0].y,
-               packet.players[0].x, packet.players[0].y, packet.players[0].points);
+               packet.players[0].x, packet.players[0].y, packet.players[0].points);*/
     }
     return 0;
 }

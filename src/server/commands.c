@@ -28,6 +28,14 @@ int cmd(char** args) {
         printf("yoyoyooy\n"); 
     }*/
 
+    if (strcmp(args[0], "help") == 0) { 
+        printf("Available commands:\n");
+        printf("  start snake - Start the Snake game\n");
+        printf("  start ttt - Start the Tic-Tac-Toe game\n");
+        printf("  ls players - List all connected players\n");
+        printf("  kick <player_id> - Disconnect a player by their ID\n");
+    }
+
     if (strcmp(args[0], "start") == 0) { 
         strt = 1; 
     }

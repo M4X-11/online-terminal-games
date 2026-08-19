@@ -76,15 +76,16 @@ int main(){
 
     //network
     startConnection();
+    displayMenu();
 
     while (1)
     {
-        int num;
-        printf("Vote on gamemode.\n");
-        printf("snake 0.\n");
-        printf("TTT 1.\n");
-        scanf("%d", &num);
-        sendVote(num);
+        //int num;
+        //printf("Vote on gamemode.\n");
+        //printf("snake 0.\n");
+        //printf("TTT 1.\n");
+        //scanf("%d", &num);
+        //sendVote(num);
         break; // exit voting loop and continue to main input loop
 
         ///
@@ -181,9 +182,10 @@ int main(){
         * =========================
         */
 
+        //gameLoop();
             if (FD_ISSET(network_socket, &readfds))
         {
-            printf("Data from server\n");
+            //printf("Data from server\n");
             getData();
 
             /*

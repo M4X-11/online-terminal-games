@@ -5,7 +5,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/select.h>
-
+#include <signal.h>
+#include <errno.h>
 
 #include "Snetwork.h"
 #include "playerState.h"
@@ -14,6 +15,8 @@
 
 int server_socket;
 int startServer(){
+    signal(SIGPIPE, SIG_IGN);
+
     //srand(time(NULL));
     //int server_socket;
     //int connected = 0;
@@ -141,12 +144,17 @@ int send_all(int sock, const void *buffer, size_t length)
         ssize_t sent = send(sock,
                             ptr + total,
                             length - total,
-                            0);
+                            MSG_NOSIGNAL);
 
-        if (sent <= 0)
+        if (sent < 0)
         {
+            if (errno == EINTR)
+                continue;
             return -1;
         }
+
+        if (sent == 0)
+            return -1;
 
         total += sent;
     }
@@ -201,7 +209,7 @@ int readPackage(int sock, int i){
         break;
     case MSG_MOVE:
         recv_all(sock, &game.players[i].snake.direction, sizeof(int));
-        printf("player[%d] moved: %d\n", i, game.players[i].snake.direction);
+        //printf("player[%d] moved: %d\n", i, game.players[i].snake.direction);
         break;
     default:
         break;

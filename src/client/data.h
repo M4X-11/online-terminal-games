@@ -54,6 +54,7 @@ typedef struct
 
 int sendVote(int vote);
 int gameLoop();
+int displayMenu();
 
 ///////////////
 typedef struct {

@@ -49,18 +49,18 @@ int initGame(int mode)
 
 int main()
 {
-    printf("Welcome to online terminal games\n");
-    printf("snake[1]\n");
-    printf("TicTacToe[2]\n");
+    printf("Welcome to online terminal games\n\n");
+    //printf("snake[1]\n");
+    //printf("TicTacToe[2]\n");
 
     /*
      * If you don't actually need this local game selection,
      * you can remove this entire scanf section.
      */
-    int mode;
+    //int mode;
 
-    scanf("%d", &mode);
-    getchar();
+    //scanf("%d", &mode);
+    //getchar();
 
     startServer();
 
