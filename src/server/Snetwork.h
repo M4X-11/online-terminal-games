@@ -21,6 +21,7 @@ int readPackage(int sock, int i);
 int getData();
 
 int sendMode(int mode);
+int leaveMode();
 
 typedef enum
 {

@@ -95,61 +95,25 @@ int displayMenu()
 
 void cmdDisplay()
 {
-
-
-
-    /*
-     * Tokenize command.
-     */
-    
-    
-
-
-
-
-
-
-    // Clear command window
+    // Clear and redraw command window
     werase(cmdWin);
-
-    // Draw border
     box(cmdWin, 0, 0);
 
-    mvwprintw(
-        cmdWin,
-        CMD_HEIGHT - 4,
-        1,
-        "OTG$ %s",
-        lastCommand
-    );
+    mvwprintw(cmdWin, CMD_HEIGHT - 4, 1, "OTG$ %s", lastCommand);
 
     if (strlen(lastCommand) > 0) {
-        mvwprintw(
-            cmdWin,
-            CMD_HEIGHT - 3,
-            1,
-            "%s",
-            commandRES
-        );
+        mvwprintw(cmdWin, CMD_HEIGHT - 3, 1, "%s", commandRES);
     }
-    
 
-    // Draw prompt and command
-    mvwprintw(
-        cmdWin,
-        CMD_HEIGHT - 2,
-        1,
-        "OTG$ %s",
-        command
-    );
+    // Draw prompt and current input
+    mvwprintw(cmdWin, CMD_HEIGHT - 2, 1, "OTG$ %s", command);
 
-    // Put cursor at the end of the command
-    wmove(
-        cmdWin,
-        CMD_HEIGHT - 2,
-        6 + commandPos
-    );
+    // Position cursor at end of input
+    wmove(cmdWin, CMD_HEIGHT - 2, 6 + commandPos);
 
+    // --- FIX: Refresh both windows ---
+    touchwin(gameWin); // Forces ncurses to recognize gameWin needs redrawing
+    wrefresh(gameWin); 
     wrefresh(cmdWin);
 }
 

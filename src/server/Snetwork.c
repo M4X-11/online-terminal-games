@@ -196,6 +196,21 @@ int sendMode(int mode){
     return 0;
 }
 
+int leaveMode(){
+
+    PacketHeader packet;
+    int action = MSG_LEAVE;
+    packet.type=action;
+    packet.length=8;
+    for (int i = 0; i < connected; i++)
+    {
+        send_all(players[i].socket, &packet, sizeof(packet));
+    
+    }
+    
+    return 0;
+}
+
 int readPackage(int sock, int i){
     PacketHeader packet;
     int action;
@@ -218,6 +233,12 @@ int readPackage(int sock, int i){
     case MSG_MOVE:
         recv_all(sock, &game.players[i].snake.direction, sizeof(int));
         //printf("player[%d] moved: %d\n", i, game.players[i].snake.direction);
+        break;
+    case MSG_PLAYER_LIST:
+        // Handle player list request
+        send_all(sock, &players, sizeof(players));
+        printf("player[%d] requested player list\n", i);
+        // You can implement sending the player list back to the client here
         break;
     default:
         break;

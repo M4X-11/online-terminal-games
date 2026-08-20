@@ -3,6 +3,16 @@
 #ifndef ADDRESS_H
 #define ADDRESS_H
 
+
+typedef struct Player
+{
+    int socket;
+    int connected;
+    char username[20];
+} PlayerNAMES;
+
+extern PlayerNAMES players[6];
+
 typedef struct {
     char ip[20];
     int port;

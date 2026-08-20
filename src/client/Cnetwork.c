@@ -124,6 +124,14 @@ int sendDirection(int sock, int input){
     return 0;
 }
 
+int listPlayers(int sock){
+    PacketHeader packet;
+    packet.type=MSG_PLAYER_LIST;
+    packet.length=8;
+    send_all(sock, &packet, sizeof(packet));
+    return 0;
+}
+
 int getData(){
 
     PacketHeader Cpacket;
@@ -142,6 +150,14 @@ int getData(){
                packet.connections,
                packet.apple[0].x, packet.apple[0].y,
                packet.players[0].x, packet.players[0].y, packet.players[0].points);*/
+    }
+    if (action == MSG_LEAVE){
+        currentGameMode=0;
+        app_state = STATE_MENU;
+        game_memory = NULL;
+        current_game = NULL;
+        displayMenu();
+        
     }
     return 0;
 }

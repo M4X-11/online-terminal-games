@@ -71,9 +71,12 @@ static void snake_render(void *state) {
 
 static void snake_cleanup(void *state) {
     free(state); // Free game-specific allocated state
-    printf("[Snake] Cleaned up memory!\n");
+    app_state = STATE_MENU;
+    game_memory = NULL;
+    current_game = NULL;
+    
     /* restore terminal state */
-    endwin();
+    //endwin();
 }
 
 static void snake_net(void *state, int input) {

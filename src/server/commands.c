@@ -102,6 +102,9 @@ int cmd(char** args) {
             return 0;
         }
         current_game->cleanup(game_memory);
+        current_game = NULL;
+        app_state = STATE_MENU;
+        leaveMode();
     }
     
     ls=0;
