@@ -1,6 +1,250 @@
 #include <ncurses.h>
+#include <stdlib.h>
 
 
+
+
+
+#include <ncurses.h>
+#include <string.h>
+#include "data.h"
+
+#define CMD_HEIGHT 5
+#define CMD_SIZE 256
+
+WINDOW *gameWin;
+WINDOW *cmdWin;
+
+char command[CMD_SIZE];
+char lastCommand[CMD_SIZE];
+int commandPos = 0;
+
+int initScreen(){
+    return 0;
+}
+
+int displayMenu()
+{
+    int height;
+    int width;
+
+    // Start ncurses
+    initscr();
+
+    start_color();
+    init_pair(1, COLOR_RED,     COLOR_BLACK);
+    init_pair(2, COLOR_GREEN,   COLOR_BLACK);
+    init_pair(3, COLOR_YELLOW,  COLOR_BLACK);
+    init_pair(4, COLOR_BLUE,    COLOR_BLACK);
+    init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(6, COLOR_CYAN,    COLOR_BLACK);
+    init_pair(7, COLOR_WHITE,   COLOR_BLACK);
+
+    cbreak();
+    noecho();
+
+    // Show cursor
+    curs_set(1);
+
+    // Get terminal dimensions
+    getmaxyx(stdscr, height, width);
+
+    // Create windows
+    gameWin = newwin(
+        height - CMD_HEIGHT,
+        width,
+        0,
+        0
+    );
+
+    cmdWin = newwin(
+        CMD_HEIGHT,
+        width,
+        height - CMD_HEIGHT,
+        0
+    );
+
+    // Allow arrow keys, etc.
+    //keypad(gameWin, TRUE);
+    //keypad(cmdWin, TRUE);
+
+    // Non-blocking input for command window
+    //nodelay(cmdWin, TRUE);
+    keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
+
+    // Draw command window border
+    box(cmdWin, 0, 0);
+
+    // Draw game
+    mvwprintw(gameWin, 0, 0, "      .          ,                   .                   \n _ ._ |*._  _   -+- _ ._.._ _ *._  _.|   _  _.._ _  _  __\n(_)[ )||[ )(/,   | (/,[  [ | )|[ )(_]|  (_](_][ | )(/,_) \n                                        ._|              \n");
+
+    // Draw command prompt
+    mvwprintw(cmdWin, 1, 1, "OTG$ ");
+
+    // Put cursor after OTG$
+    wmove(cmdWin, 1, 6);
+
+    // Show everything
+    wrefresh(gameWin);
+    wrefresh(cmdWin);
+
+    return 0;
+}
+
+
+void cmdDisplay()
+{
+
+
+
+    /*
+     * Tokenize command.
+     */
+    
+    
+
+
+
+
+
+
+    // Clear command window
+    werase(cmdWin);
+
+    // Draw border
+    box(cmdWin, 0, 0);
+
+    mvwprintw(
+        cmdWin,
+        CMD_HEIGHT - 4,
+        1,
+        "OTG$ %s",
+        lastCommand
+    );
+
+    if (strlen(lastCommand) > 0) {
+        mvwprintw(
+            cmdWin,
+            CMD_HEIGHT - 3,
+            1,
+            "%s",
+            commandRES
+        );
+    }
+    
+
+    // Draw prompt and command
+    mvwprintw(
+        cmdWin,
+        CMD_HEIGHT - 2,
+        1,
+        "OTG$ %s",
+        command
+    );
+
+    // Put cursor at the end of the command
+    wmove(
+        cmdWin,
+        CMD_HEIGHT - 2,
+        6 + commandPos
+    );
+
+    wrefresh(cmdWin);
+}
+
+
+void handleCommandInput(int key)
+{
+    //int key;
+
+    // Get a key without blocking
+    //key = wgetch(cmdWin);
+
+    if (key == ERR)
+        return;
+
+
+    // Enter
+    if (key == '\n' || key == KEY_ENTER)
+    {
+        command[commandPos] = '\0';
+
+        char **toks = tokens(command);
+
+
+    if (toks != NULL)
+    {
+        cmd(toks);
+
+
+        
+
+        for (int i = 0; toks[i] != NULL; i++)
+            free(toks[i]);
+
+        free(toks);
+    }
+        strcpy(lastCommand, command);
+
+        // Do something with the command
+        // For now, just clear it
+
+        if (strcmp(command, "exit") == 0)
+        {
+            // You can handle exit here
+        }
+
+        commandPos = 0;
+        command[0] = '\0';
+    }
+
+
+    // Backspace
+    else if (key == KEY_BACKSPACE ||
+             key == 127 ||
+             key == 8)
+    {
+        if (commandPos > 0)
+        {
+            commandPos--;
+
+            command[commandPos] = '\0';
+        }
+    }
+
+
+    // Normal printable character
+    else if (key >= 32 && key <= 126)
+    {
+        if (commandPos < CMD_SIZE - 1)
+        {
+            command[commandPos] = key;
+
+            commandPos++;
+
+            command[commandPos] = '\0';
+        }
+    }
+
+
+    // Redraw command line
+    cmdDisplay(command);
+    commandRES[0] = '\0';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 int displayMenu()
 {
 
@@ -30,4 +274,8 @@ int displayMenu()
 
     refresh();
     return 0;
-}
+}*/
+
+//int cmdDisplay(){
+//    mvprintw(10, 0, "OTG$ ");
+//}

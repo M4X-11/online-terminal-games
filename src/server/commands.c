@@ -34,6 +34,7 @@ int cmd(char** args) {
         printf("  start ttt - Start the Tic-Tac-Toe game\n");
         printf("  ls players - List all connected players\n");
         printf("  kick <player_id> - Disconnect a player by their ID\n");
+        printf("  restart - Restart the current game\n");
     }
 
     if (strcmp(args[0], "start") == 0) { 
@@ -88,8 +89,19 @@ int cmd(char** args) {
     //restart
     if (strcmp(args[0], "restart") == 0) { 
         
-
+        if (current_game == NULL) {
+            printf("No game is currently running. Cannot restart.\n");
+            return 0;
+        }
         current_game->restart(game_memory);
+    }
+    if (strcmp(args[0], "end") == 0) { 
+        
+        if (current_game == NULL) {
+            printf("No game is currently running. Cannot end.\n");
+            return 0;
+        }
+        current_game->cleanup(game_memory);
     }
     
     ls=0;

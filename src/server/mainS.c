@@ -197,8 +197,16 @@ int main()
 
             if (line[0] == '\0')
             {
-                printf("OTG$ ");
+                if (app_state == STATE_IN_GAME && current_game != NULL)
+            {
+                printf("(%s)-OTG$ ", current_game->name);
+
+                //printf("Game loop running\n");
                 fflush(stdout);
+            }else
+            {
+            printf("OTG$ ");
+            fflush(stdout);}
                 continue;
             }
 
@@ -226,8 +234,16 @@ int main()
             }
 
 
+            if (app_state == STATE_IN_GAME && current_game != NULL)
+            {
+                printf("(%s)-OTG$ ", current_game->name);
+
+                //printf("Game loop running\n");
+                fflush(stdout);
+            }else
+            {
             printf("OTG$ ");
-            fflush(stdout);
+            fflush(stdout);}
         }
 
 
@@ -252,8 +268,16 @@ int main()
                     MAX_PLAYERS
                 );
 
-                printf("OTG$ ");
+                if (app_state == STATE_IN_GAME && current_game != NULL)
+            {
+                printf("(%s)-OTG$ ", current_game->name);
+
+                //printf("Game loop running\n");
                 fflush(stdout);
+            }else
+            {
+            printf("OTG$ ");
+            fflush(stdout);}
             }
         }
 

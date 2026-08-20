@@ -31,7 +31,8 @@ typedef enum
     MSG_PLAYER_LIST,
     MSG_VOTE,
     MSG_MODE,
-    MSG_UPDATE_SNAKE
+    MSG_UPDATE_SNAKE,
+    MSG_LEAVE
 } MessageType;
 
 typedef enum

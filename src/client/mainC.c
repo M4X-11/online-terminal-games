@@ -11,6 +11,10 @@
 #include <ncurses.h>
 #include "snake/snakecom.h"
 
+#include <fcntl.h>
+
+char commandRES[30];
+int cmdON = 1;
 int currentGameMode; 
 int main(){
     //Address addr;
@@ -76,6 +80,8 @@ int main(){
 
     //network
     startConnection();
+    //fcntl(network_socket, F_SETFL, O_NONBLOCK);
+
     displayMenu();
 
     while (1)
@@ -150,7 +156,7 @@ int main(){
         if (FD_ISSET(STDIN_FILENO, &readfds))
         {
             int key = getch();
-
+            
             switch (key)
             {
                 case KEY_UP:
@@ -172,6 +178,9 @@ int main(){
                 case 'q':
                     running = 0;
                     break;
+            }
+            if (current_game == NULL) {
+                handleCommandInput(key);
             }
         }
 

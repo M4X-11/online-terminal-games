@@ -200,12 +200,20 @@ int readPackage(int sock, int i){
     PacketHeader packet;
     int action;
     int vote=0;
-    recv_all(sock, &packet, sizeof(packet));
+    int n =recv_all(sock, &packet, sizeof(packet));
     action=packet.type;
+
+    if (n <= 0) {
+        printf("\nPlayer %d disconnected\nOTG$ ", i);
+        disconnectPlayer(players, i);
+        return -1;
+    }
+
     switch (action)
     {
     case MSG_VOTE:
         recv_all(sock, &vote, sizeof(int));
+        printf("player[%d] voted: %d\n", i, vote);
         break;
     case MSG_MOVE:
         recv_all(sock, &game.players[i].snake.direction, sizeof(int));

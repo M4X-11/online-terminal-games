@@ -43,7 +43,8 @@ typedef enum
     MSG_PLAYER_LIST,
     MSG_VOTE,
     MSG_MODE,
-    MSG_UPDATE_SNAKE
+    MSG_UPDATE_SNAKE,
+    MSG_LEAVE
 } MessageType;
 
 typedef struct
@@ -55,6 +56,7 @@ typedef struct
 int sendVote(int vote);
 int gameLoop();
 int displayMenu();
+void handleCommandInput(int key);
 
 ///////////////
 typedef struct {
@@ -76,6 +78,15 @@ typedef enum {
 extern AppState app_state;
 extern GameMode *current_game;
 extern void *game_memory;
+
+extern int cmdON;
+
+int cmd(char** args);
+
+char** tokens(char* args);
+
+extern char commandRES[30];
+
 /////
 #endif
 
