@@ -1,4 +1,10 @@
 
+enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
 
 typedef struct {
     const char *name;
@@ -20,6 +26,7 @@ extern AppState app_state;
 extern GameMode *current_game;
 extern void *game_memory;
 
+extern int desired_ms;
 
 int startMode(int mode);
 int gameLoop(void);

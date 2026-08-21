@@ -3,6 +3,12 @@
 #ifndef ADDRESS_H
 #define ADDRESS_H
 
+enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
 
 typedef struct Player
 {
@@ -41,7 +47,8 @@ extern int running;
 typedef enum
 {
     SNAKE,
-    TTT
+    TTT,
+    PONG
 } Gmode;
 
 typedef enum
@@ -54,6 +61,7 @@ typedef enum
     MSG_VOTE,
     MSG_MODE,
     MSG_UPDATE_SNAKE,
+    MSG_UPDATE_PONG,
     MSG_LEAVE
 } MessageType;
 

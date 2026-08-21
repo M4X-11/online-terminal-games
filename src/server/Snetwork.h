@@ -33,13 +33,15 @@ typedef enum
     MSG_VOTE,
     MSG_MODE,
     MSG_UPDATE_SNAKE,
+    MSG_UPDATE_PONG,
     MSG_LEAVE
 } MessageType;
 
 typedef enum
 {
     SNAKE,
-    TTT
+    TTT,
+    PONG
 } Gmode;
 
 typedef struct

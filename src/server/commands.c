@@ -32,6 +32,7 @@ int cmd(char** args) {
         printf("Available commands:\n");
         printf("  start snake - Start the Snake game\n");
         printf("  start ttt - Start the Tic-Tac-Toe game\n");
+        printf("  start pong - Start the Pong game\n");
         printf("  ls players - List all connected players\n");
         printf("  kick <player_id> - Disconnect a player by their ID\n");
         printf("  restart - Restart the current game\n");
@@ -54,6 +55,23 @@ int cmd(char** args) {
         printf("starting snake\n");
         //sendMode(SNAKE);
         startMode(SNAKE);
+        
+    }
+    if (args[1] != NULL && strcmp(args[1], "pong") == 0 && strt == 1) { 
+        if (current_game != NULL) {
+            printf("A game is already running. Please restart or exit the current game first.\n");
+            return 0;
+        }
+        if (connected < 2) {
+            printf("Not enough players connected to start Pong. Need at least 2 players.\n");
+            return 0;
+        }if (connected > 2) {
+            printf("Too many players connected to start Pong. Only 2 players allowed.\n");
+            return 0;
+        }
+        printf("starting pong\n");
+        //sendMode(SNAKE);
+        startMode(PONG);
         
     }
     if (args[1] != NULL && strcmp(args[1], "ttt") == 0 && strt == 1) { 

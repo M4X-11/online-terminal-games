@@ -9,6 +9,7 @@
 #include <time.h>
 #include "../Snetwork.h"
 #include "playerState.h"
+#include "../gameHandler.h"
 
 int mode;
 //int server_socket;

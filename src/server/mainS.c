@@ -9,6 +9,8 @@
 #include "playerState.h"
 #include "gameHandler.h"
 
+int desired_ms;
+
 
 Player players[MAX_PLAYERS] = {0};
 int connected = 0;
@@ -49,6 +51,7 @@ int initGame(int mode)
 
 int main()
 {
+    desired_ms=100000;
     printf("Welcome to online terminal games\n\n");
     //printf("snake[1]\n");
     //printf("TicTacToe[2]\n");
@@ -67,6 +70,7 @@ int main()
     printf("OTG$ ");
     fflush(stdout);
 
+    
 
     while (1)
     {
@@ -129,9 +133,8 @@ int main()
          */
 
         struct timeval timeout;
-
         timeout.tv_sec = 0;
-        timeout.tv_usec = 100000; // 50 ms// 100 ms
+        timeout.tv_usec = desired_ms;; // 50 ms// 100 ms
 
 
         /*

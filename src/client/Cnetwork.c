@@ -11,6 +11,7 @@
 #include <time.h>
 #include <arpa/inet.h>
 #include "snake/snakecom.h"
+#include "pong/pongcom.h"
 
 /* Forward declaration of client-side startMode implemented in CgameHandler.c */
 int startMode(int mode);
@@ -147,6 +148,13 @@ int getData(){
     }
     if (action == MSG_UPDATE_SNAKE){
         recv_all(network_socket, &packet, sizeof(packet));
+        /*printf("Got Packet: connections=%d, apple=(%d,%d), player[0]=(%d,%d,%d)\n",
+               packet.connections,
+               packet.apple[0].x, packet.apple[0].y,
+               packet.players[0].x, packet.players[0].y, packet.players[0].points);*/
+    }
+    if (action == MSG_UPDATE_PONG){
+        recv_all(network_socket, &pong, sizeof(pong));
         /*printf("Got Packet: connections=%d, apple=(%d,%d), player[0]=(%d,%d,%d)\n",
                packet.connections,
                packet.apple[0].x, packet.apple[0].y,

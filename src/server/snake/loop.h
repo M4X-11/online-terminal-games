@@ -1,11 +1,6 @@
 #define MAX_PLAYERS 6
 
-enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-};
+
 
 typedef struct {
 

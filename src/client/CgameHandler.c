@@ -4,6 +4,7 @@
 //#include "gameHandler.h"
 #include <ncurses.h>
 #include <stdlib.h>
+#include "pong/pongcom.h"
 
 int running = 1;
 
@@ -11,7 +12,9 @@ int running = 1;
 Packets packet;
 Package game;
 Cpacket clientPacket;
-///
+//pong
+PONGPacket pong;
+///general
 AppState app_state;
 GameMode *current_game;
 void *game_memory;
@@ -50,7 +53,7 @@ static void snake_init(void **state) {
     init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(6, COLOR_CYAN,    COLOR_BLACK);
     init_pair(7, COLOR_WHITE,   COLOR_BLACK);*/
-
+    curs_set(0);
 
 }
 
@@ -69,7 +72,7 @@ static void snake_render(void *state) {
     Sdispl();
 }
 
-static void snake_cleanup(void *state) {
+static void cleanup(void *state) {
     free(state); // Free game-specific allocated state
     app_state = STATE_MENU;
     game_memory = NULL;
@@ -95,8 +98,41 @@ GameMode SnakeGame = {
     .init = snake_init,
     .update = snake_update,
     .render = snake_render,
-    .cleanup = snake_cleanup,
+    .cleanup = cleanup,
     .network = snake_net
+};
+
+///pong
+static void pong_init(void **state) {
+    SnakeState *s = malloc(sizeof(SnakeState));
+    s->score = 0;
+    s->length = 3;
+    *state = s; // Assign allocated memory back to generic pointer
+    
+    curs_set(0);
+
+}
+static void pong_render(void *state) {
+    SnakeState *s = (SnakeState *)state;
+    (void)s;
+    //printf("\n--- SNAKE GAME | Length: %d | Score: %d ---\n", s->length, s->score);
+    //printf("Controls: Move (w/a/s/d) | Return to menu (q)\n");
+    /* call the snake display function defined in snakeRender.c */
+    PongDispl();
+}
+static void pong_update(void *state) {
+    SnakeState *s = (SnakeState *)state;
+    (void)s;
+    //nothing :3
+}
+
+GameMode PongGame = {
+    .name = "Pong",
+    .init = pong_init,
+    .update = pong_update,
+    .render = pong_render,
+    .cleanup = cleanup,
+    .network = snake_net //shhh (depricated lmao)
 };
 
 
@@ -108,6 +144,11 @@ int startMode(int mode){
                 current_game->init(&game_memory); // Allocate game state
                 app_state = STATE_IN_GAME;
             } 
+            else if (mode == PONG) {
+                current_game = &PongGame;
+                current_game->init(&game_memory); // Allocate game state
+                app_state = STATE_IN_GAME;
+            }
             /*else if (mode == TTT) {
                 current_game = &TicTacToeGame;
                 current_game->init(&game_memory); // Allocate game state
