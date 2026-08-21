@@ -129,6 +129,7 @@ int listPlayers(int sock){
     packet.type=MSG_PLAYER_LIST;
     packet.length=8;
     send_all(sock, &packet, sizeof(packet));
+    recv_all(sock, &players, sizeof(players));
     return 0;
 }
 

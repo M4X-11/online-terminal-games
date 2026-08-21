@@ -67,6 +67,7 @@ int sendVote(int vote);
 int gameLoop();
 int displayMenu();
 void handleCommandInput(int key);
+int listPlayers(int sock);
 
 ///////////////
 typedef struct {

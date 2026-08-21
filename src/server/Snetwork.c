@@ -237,7 +237,7 @@ int readPackage(int sock, int i){
     case MSG_PLAYER_LIST:
         // Handle player list request
         send_all(sock, &players, sizeof(players));
-        printf("player[%d] requested player list\n", i);
+        printf("\nplayer[%d] requested player list\n", i);
         // You can implement sending the player list back to the client here
         break;
     default:

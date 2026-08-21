@@ -49,7 +49,17 @@ int cmd(char** args) {
         sendVote(SNAKE);
     }
     if (args[1] != NULL && strcmp(args[1], "players") == 0 && ls == 1) { 
-        strcpy(commandRES, "listing players");
+        listPlayers(network_socket);
+        char buffer[1024];
+        memset(buffer, 0, sizeof(buffer)); // Clear the buffer
+        for (int i = 0; i < 6; i++) {
+            if (players[i].socket > 0) {
+                strcat(buffer, players[i].username);
+                strcat(buffer, "  ");
+                //printf("Player %d: %s\n", i, players[i].username);
+            }
+        }
+        strcpy(commandRES, buffer);
     }
     
     

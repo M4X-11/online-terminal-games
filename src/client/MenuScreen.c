@@ -132,8 +132,9 @@ void handleCommandInput(int key)
     // Enter
     if (key == '\n' || key == KEY_ENTER)
     {
+        commandRES[0] = '\0';
         command[commandPos] = '\0';
-
+        strcpy(lastCommand, command);
         char **toks = tokens(command);
 
 
@@ -149,7 +150,7 @@ void handleCommandInput(int key)
 
         free(toks);
     }
-        strcpy(lastCommand, command);
+        
 
         // Do something with the command
         // For now, just clear it
@@ -194,7 +195,7 @@ void handleCommandInput(int key)
 
     // Redraw command line
     cmdDisplay(command);
-    commandRES[0] = '\0';
+    
 }
 
 
