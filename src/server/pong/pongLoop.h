@@ -10,11 +10,12 @@ typedef struct {
 
 typedef struct {
     PLAYER player[2];
-    int ball_x;
-    int ball_y;
+    float ball_x;
+    float ball_y;
 }PONGPacket;
 
 extern PONGPacket pong;
 
 int InitPONG();
 int PongGameLoop();
+int playerMove(int player, int direction);

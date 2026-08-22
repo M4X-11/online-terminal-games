@@ -7,6 +7,7 @@
 #include <sys/select.h>
 #include <ncurses.h>
 #include <arpa/inet.h>
+#include <math.h>
 #include "pongcom.h"
 #include "../data.h"
 
@@ -31,16 +32,18 @@ int PongDispl()
     
 
     // ball
-    mvaddch(pong.ball_x, pong.ball_y, 'o');
+    int display_x = (int)roundf(pong.ball_x);
+    int display_y = (int)roundf(pong.ball_y);
+    mvaddch(display_y+2, display_x+1, 'o');
 
     int lenght=47;
     //int lenght=17;
     
     for (int i=0; i<9; i++){
-        mvaddch(pong.player[0].y-8+i, 1, 'H');
+        mvaddch(pong.player[0].y-4+i+2, 3, 'H');
     }
     for (int i=0; i<9; i++){
-        mvaddch(pong.player[1].y-8+i, lenght-1, 'H');
+        mvaddch(pong.player[1].y-4+i+2, lenght-3, 'H');
     }
     
     

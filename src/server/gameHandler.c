@@ -47,16 +47,10 @@ static void snake_update(void *state) {
 }
 
 ////////
-static void snake_render(void *state) {
-    SnakeState *s = (SnakeState *)state;
-    printf("\n--- SNAKE GAME | Length: %d | Score: %d ---\n", s->length, s->score);
-    printf("Controls: Move (w/a/s/d) | Return to menu (q)\n");
+
+static void snake_input(int input, int i){
+    game.players[i].snake.direction=input;  
 }
-static void pong_render(void *state) {
-    SnakeState *s = (SnakeState *)state;
-    printf("\n--- PONG GAME | Score: %d ---\n", s->score);
-    printf("Controls: Move (w/s) | Return to menu (q)\n");
-}//////
 
 
 
@@ -73,7 +67,7 @@ GameMode SnakeGame = {
     .name = "Snake",
     .init = snake_init,
     .update = snake_update,
-    .render = snake_render,
+    .input = snake_input,
     .cleanup = cleanup,
     .restart = snake_restart
 };
@@ -85,7 +79,7 @@ GameMode SnakeGame = {
 
 static void pong_init(void **state) {
     SnakeState *s = malloc(sizeof(SnakeState));
-    desired_ms = 100; // Set desired update interval for Pong
+    //desired_ms = 100; // Set desired update interval for Pong
     InitPONG(); // Initialize Pong game state
     *state = s;
 }
@@ -100,12 +94,17 @@ static void pong_restart(void *state) {
     InitPONG();
     (void)s;
 }
+static void pong_input(int input, int i){
+    pong.player[i].direction=input;
+    playerMove(i, input);
+    printf("player[%d] direction: %d\n", i, input);
+}
 
 GameMode PongGame = {
     .name = "Pong",
     .init = pong_init, // Implement Pong initialization
     .update = pong_update, // Implement Pong update logic
-    .render = pong_render, // Implement Pong rendering
+    .input = pong_input, // Implement Pong rendering
     .cleanup = cleanup, // Implement Pong cleanup
     .restart = pong_restart // Implement Pong restart logic
 };
@@ -120,11 +119,11 @@ int startMode(int mode){
                 current_game->init(&game_memory); // Allocate game state
                 app_state = STATE_IN_GAME;
             } 
-            /*else if (mode == TTT) {
-                current_game = &TicTacToeGame;
+            else if (mode == PONG) {
+                current_game = &PongGame;
                 current_game->init(&game_memory); // Allocate game state
                 app_state = STATE_IN_GAME;
-            }*/
+            }
             else if (mode == 'x') {
                 running = 0;
             }
@@ -158,6 +157,8 @@ int gameLoop(void)
 
     return 0;
 }
+
+
 
 /*
 int gameLoop(){

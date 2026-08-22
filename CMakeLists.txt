@@ -47,6 +47,8 @@ target_link_libraries(game_client PRIVATE
     ${CURSES_LIBRARIES}
 )
 
+target_link_libraries(game_client PRIVATE m)
+
 # ============================================================================
 # 5. GAME SERVER TARGET
 # ============================================================================
@@ -61,3 +63,5 @@ target_include_directories(game_server PRIVATE
     src/server
     src/server/snake
 )
+
+target_link_libraries(game_server PRIVATE m)

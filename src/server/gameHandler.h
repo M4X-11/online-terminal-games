@@ -12,7 +12,7 @@ typedef struct {
     // Function pointers matching the game lifecycle
     void (*init)(void **state);
     void (*update)(void *state);
-    void (*render)(void *state);
+    void (*input)(int input, int i);
     void (*cleanup)(void *state);
     void (*restart)(void *state);
 } GameMode;
@@ -29,4 +29,5 @@ extern void *game_memory;
 extern int desired_ms;
 
 int startMode(int mode);
+
 int gameLoop(void);

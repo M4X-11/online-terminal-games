@@ -12,6 +12,7 @@
 #include "playerState.h"
 #include "Snetwork.h"
 #include "snake/loop.h"
+#include "gameHandler.h"
 
 int server_socket;
 int startServer(){
@@ -223,7 +224,7 @@ int readPackage(int sock, int i){
         disconnectPlayer(players, i);
         return -1;
     }
-
+    int dire;
     switch (action)
     {
     case MSG_VOTE:
@@ -231,9 +232,11 @@ int readPackage(int sock, int i){
         printf("player[%d] voted: %d\n", i, vote);
         break;
     case MSG_MOVE:
-        recv_all(sock, &game.players[i].snake.direction, sizeof(int));
+        recv_all(sock, &dire, sizeof(int));
+        current_game->input(dire, i);
         //printf("player[%d] moved: %d\n", i, game.players[i].snake.direction);
         break;
+    
     case MSG_PLAYER_LIST:
         // Handle player list request
         send_all(sock, &players, sizeof(players));
