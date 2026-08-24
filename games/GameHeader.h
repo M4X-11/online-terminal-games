@@ -1,5 +1,5 @@
 //declare all game filess
-#include "test-game/test-gameData.h"
+#include "template-game/template-gameData.h"
 //etc
 
 // Declare the module structs living in each game's file

@@ -72,7 +72,7 @@ int cmd(char** args) {
                     printf("Too many players connected to start %s. Only %d players allowed.\n", ALL_GAMES[i]->name, ALL_GAMES[i]->max_players);
                     return 0;
                 }
-                printf("\nstarting %s", ALL_GAMES[i]->name);
+                printf("starting %s\n", ALL_GAMES[i]->name);
                 startMode(i);
             }
         }

@@ -160,8 +160,7 @@ static void snake_update() {
 
 static void snake_input(int key, int i) {
     // Handle KEY_UP, KEY_DOWN, etc.
-    (void)key;
-    (void)i;
+    game.players[i].snake.direction=key; 
 }
 
 
