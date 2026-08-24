@@ -9,6 +9,11 @@
 #include "playerState.h"
 #include "gameHandler.h"
 
+//gamlist
+#include "../../games/GameHeader.h"
+
+#include "../../src/engineAPI.h"
+
 int desired_ms;
 
 

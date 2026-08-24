@@ -23,6 +23,12 @@ int getData();
 int sendMode(int mode);
 int leaveMode();
 
+
+
+
+
+
+
 typedef enum
 {
     MSG_LOGIN,
@@ -32,8 +38,7 @@ typedef enum
     MSG_PLAYER_LIST,
     MSG_VOTE,
     MSG_MODE,
-    MSG_UPDATE_SNAKE,
-    MSG_UPDATE_PONG,
+    MSG_UPDATE_GAME,
     MSG_LEAVE
 } MessageType;
 

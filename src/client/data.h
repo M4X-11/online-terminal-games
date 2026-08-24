@@ -1,14 +1,9 @@
-
+#include <stdlib.h>
 #include <stdint.h>
 #ifndef ADDRESS_H
 #define ADDRESS_H
 
-enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-};
+
 
 typedef struct Player
 {
@@ -23,6 +18,7 @@ typedef struct {
     char ip[20];
     int port;
 } Address;
+
 
 typedef struct {
     char username[20];
@@ -60,8 +56,7 @@ typedef enum
     MSG_PLAYER_LIST,
     MSG_VOTE,
     MSG_MODE,
-    MSG_UPDATE_SNAKE,
-    MSG_UPDATE_PONG,
+    MSG_UPDATE_GAME,
     MSG_LEAVE
 } MessageType;
 
@@ -78,25 +73,25 @@ void handleCommandInput(int key);
 int listPlayers(int sock);
 
 ///////////////
+
+
+/* 1. Define clean function pointer types using void* for game-private memory 
+typedef void (*GameInitFunc)();
+typedef void (*GameUpdateFunc)();
+typedef void (*GameRenderFunc)();
+typedef void (*GameCleanupFunc)();
+typedef void* (*GameNetFunc)();
+
+// 2. Package them into your engine's module struct 
 typedef struct {
     const char *name;
-    
-    // Function pointers matching the game lifecycle
-    void (*init)(void **state);
-    void (*update)(void *state);
-    void (*render)(void *state);
-    void (*cleanup)(void *state);
-    void (*network)(void *state, int input);
-} GameMode;
+    GameInitFunc    init;
+    GameUpdateFunc  update;
+    GameRenderFunc   render;
+    GameCleanupFunc cleanup;
+    GameNetFunc net;
+} GameMode;*/
 
-typedef enum {
-    STATE_MENU,
-    STATE_IN_GAME
-} AppState;
-
-extern AppState app_state;
-extern GameMode *current_game;
-extern void *game_memory;
 
 extern int cmdON;
 
@@ -105,6 +100,9 @@ int cmd(char** args);
 char** tokens(char* args);
 
 extern char commandRES[30];
+
+
+
 
 /////
 #endif

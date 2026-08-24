@@ -6,6 +6,11 @@
 #include <stdlib.h>
 #include "pong/pongcom.h"
 
+///new api thing
+#include "../../games/GameHeader.h"
+///
+#include "../engineAPI.h"
+
 int running = 1;
 
 ///snake
@@ -16,7 +21,7 @@ Cpacket clientPacket;
 PONGPacket pong;
 ///general
 AppState app_state;
-GameMode *current_game;
+const GameMode *current_game;
 void *game_memory;
 
 
@@ -24,16 +29,9 @@ void *game_memory;
 // 2. GAME 1: SNAKE IMPLEMENTATION
 // ============================================================================
 
-typedef struct {
-    int score;
-    int length;
-} SnakeState;
 
-static void snake_init(void **state) {
-    SnakeState *s = malloc(sizeof(SnakeState));
-    s->score = 0;
-    s->length = 3;
-    *state = s; // Assign allocated memory back to generic pointer
+
+static void snake_init() {
     //printf("\n[Snake] Initialized game state!\n");
     //////
     /*
@@ -57,31 +55,26 @@ static void snake_init(void **state) {
 
 }
 
-static void snake_update(void *state) {
-    SnakeState *s = (SnakeState *)state;
-    (void)s;
+static void snake_update() {
     snakeUpdate();
 }
 
-static void snake_render(void *state) {
-    SnakeState *s = (SnakeState *)state;
-    (void)s;
+static void snake_render() {
     //printf("\n--- SNAKE GAME | Length: %d | Score: %d ---\n", s->length, s->score);
     //printf("Controls: Move (w/a/s/d) | Return to menu (q)\n");
     /* call the snake display function defined in snakeRender.c */
     Sdispl();
 }
 
-static void cleanup(void *state) {
-    free(state); // Free game-specific allocated state
+static void cleanup() {
     app_state = STATE_MENU;
-    game_memory = NULL;
     current_game = NULL;
     
     /* restore terminal state */
     //endwin();
 }
 
+/*
 static void snake_net(void *state, int input) {
     SnakeState *s = (SnakeState *)state;
     (void)s;
@@ -90,7 +83,7 @@ static void snake_net(void *state, int input) {
     packet.length=8;
     send_all(network_socket, &packet, sizeof(packet));
     send_all(network_socket, &input, sizeof(int));
-}
+}*/
 
 // Instantiate the Snake "Cartridge"
 GameMode SnakeGame = {
@@ -98,31 +91,22 @@ GameMode SnakeGame = {
     .init = snake_init,
     .update = snake_update,
     .render = snake_render,
-    .cleanup = cleanup,
-    .network = snake_net
+    .cleanup = cleanup
 };
 
 ///pong
-static void pong_init(void **state) {
-    SnakeState *s = malloc(sizeof(SnakeState));
-    s->score = 0;
-    s->length = 3;
-    *state = s; // Assign allocated memory back to generic pointer
+static void pong_init() {
     
     curs_set(0);
 
 }
-static void pong_render(void *state) {
-    SnakeState *s = (SnakeState *)state;
-    (void)s;
+static void pong_render() {
     //printf("\n--- SNAKE GAME | Length: %d | Score: %d ---\n", s->length, s->score);
     //printf("Controls: Move (w/a/s/d) | Return to menu (q)\n");
     /* call the snake display function defined in snakeRender.c */
     PongDispl();
 }
-static void pong_update(void *state) {
-    SnakeState *s = (SnakeState *)state;
-    (void)s;
+static void pong_update() {
     //nothing :3
 }
 
@@ -131,32 +115,17 @@ GameMode PongGame = {
     .init = pong_init,
     .update = pong_update,
     .render = pong_render,
-    .cleanup = cleanup,
-    .network = snake_net //shhh (depricated lmao)
+    .cleanup = cleanup
 };
 
 
 int startMode(int mode){
-    //sendMode(mode);
 
-    if (mode == SNAKE) {
-                current_game = &SnakeGame;
-                current_game->init(&game_memory); // Allocate game state
-                app_state = STATE_IN_GAME;
-            } 
-            else if (mode == PONG) {
-                current_game = &PongGame;
-                current_game->init(&game_memory); // Allocate game state
-                app_state = STATE_IN_GAME;
-            }
-            /*else if (mode == TTT) {
-                current_game = &TicTacToeGame;
-                current_game->init(&game_memory); // Allocate game state
-                app_state = STATE_IN_GAME;
-            }*/
-            else if (mode == 'x') {
-                running = 0;
-            }
+    
+    current_game = ALL_GAMES[mode];
+    current_game->init();
+    app_state = STATE_IN_GAME;
+            
 
 
     return 0;
@@ -175,12 +144,16 @@ int gameLoop(){
         if (current_game != NULL) {
             // Apply the newest game state before drawing so the screen
             // reflects the latest packet from the server.
-            current_game->update(game_memory);
-            current_game->render(game_memory);
+            current_game->update();
+            current_game->render();
         }else {
             displayMenu();
         }
 
     //printf("\nEngine terminated cleanly.\n");
     return 0;
+}
+
+int me(){
+    return user.me;
 }

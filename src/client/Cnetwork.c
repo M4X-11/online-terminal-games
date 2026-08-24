@@ -13,6 +13,8 @@
 #include "snake/snakecom.h"
 #include "pong/pongcom.h"
 
+#include "../../src/engineAPI.h"
+
 /* Forward declaration of client-side startMode implemented in CgameHandler.c */
 int startMode(int mode);
 
@@ -146,27 +148,26 @@ int getData(){
         /* Start the corresponding mode on the client */
         startMode(currentGameMode);
     }
-    if (action == MSG_UPDATE_SNAKE){
-        recv_all(network_socket, &packet, sizeof(packet));
+    if (action == MSG_UPDATE_GAME){
+        PacketManager *p = current_game->net();
+        
+        
+        recv_all(network_socket, p->payload, p->size);
         /*printf("Got Packet: connections=%d, apple=(%d,%d), player[0]=(%d,%d,%d)\n",
                packet.connections,
                packet.apple[0].x, packet.apple[0].y,
                packet.players[0].x, packet.players[0].y, packet.players[0].points);*/
     }
-    if (action == MSG_UPDATE_PONG){
-        recv_all(network_socket, &pong, sizeof(pong));
-        /*printf("Got Packet: connections=%d, apple=(%d,%d), player[0]=(%d,%d,%d)\n",
-               packet.connections,
-               packet.apple[0].x, packet.apple[0].y,
-               packet.players[0].x, packet.players[0].y, packet.players[0].points);*/
-    }
+    
     if (action == MSG_LEAVE){
         currentGameMode=0;
         app_state = STATE_MENU;
-        game_memory = NULL;
         current_game = NULL;
         displayMenu();
         
     }
     return 0;
 }
+
+
+

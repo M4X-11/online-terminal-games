@@ -14,6 +14,8 @@
 #include "snake/loop.h"
 #include "gameHandler.h"
 
+#include "../../src/engineAPI.h"
+
 int server_socket;
 int startServer(){
     signal(SIGPIPE, SIG_IGN);
@@ -273,4 +275,18 @@ int getData(){
     return vote;
 }
 // PAYLOADS
+
+int GameSend(int i, void* data){
+    PacketHeader header;
+    header.type = MSG_UPDATE_GAME;
+    header.length = sizeof(packet);
+    send_all(players[i].socket , &header, sizeof(header));
+    send_all(players[i].socket, data, header.length);
+    return 0;
+}
+
+int connection_count(){
+    return connected;
+}
+
 

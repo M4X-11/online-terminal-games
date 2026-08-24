@@ -1,10 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <errno.h>
+
 #include "Snetwork.h"
 #include "playerState.h"
-#include <errno.h>
 #include "gameHandler.h"
+
+//gamlist
+#include "../../games/GameHeader.h"
+
+#include "../../src/engineAPI.h"
 
 
 int strt=0;
@@ -30,9 +37,10 @@ int cmd(char** args) {
 
     if (strcmp(args[0], "help") == 0) { 
         printf("Available commands:\n");
-        printf("  start snake - Start the Snake game\n");
-        printf("  start ttt - Start the Tic-Tac-Toe game\n");
-        printf("  start pong - Start the Pong game\n");
+        for (int i = 0; i < TOTAL_GAMES; i++) {
+            // Grab the pointer directly from the array!
+            printf("  start %s - Start the %s game\n", ALL_GAMES[i]->name, ALL_GAMES[i]->name); 
+        }
         printf("  ls players - List all connected players\n");
         printf("  kick <player_id> - Disconnect a player by their ID\n");
         printf("  restart - Restart the current game\n");
@@ -45,40 +53,32 @@ int cmd(char** args) {
     if (strcmp(args[0], "ls") == 0) { 
         ls = 1; 
     }
+
+    if (strcmp(args[0], "start") == 0) { 
+        if (args[1] == NULL) {
+            printf("No game specified.\n");
+            return 0;
+        }
+        if (current_game != NULL) {
+            printf("A game is already running. Please restart or exit the current game first.\n");
+            return 0;
+        }
+        for (int i = 0; i < TOTAL_GAMES; i++) {
+            if (strcmp(args[1], ALL_GAMES[i]->name) == 0){
+                if (connected < ALL_GAMES[i]->min_players) {
+                    printf("Not enough players connected to start %s. Need at least %d player/s.\n", ALL_GAMES[i]->name, ALL_GAMES[i]->min_players);
+                    return 0;
+                }if (connected > ALL_GAMES[i]->max_players) {
+                    printf("Too many players connected to start %s. Only %d players allowed.\n", ALL_GAMES[i]->name, ALL_GAMES[i]->max_players);
+                    return 0;
+                }
+                printf("\nstarting %s", ALL_GAMES[i]->name);
+                startMode(i);
+            }
+        }
+    }
     
-    // Safely check if args[1] exists here too
-    if (args[1] != NULL && strcmp(args[1], "snake") == 0 && strt == 1) { 
-        if (current_game != NULL) {
-            printf("A game is already running. Please restart or exit the current game first.\n");
-            return 0;
-        }
-        printf("starting snake\n");
-        //sendMode(SNAKE);
-        startMode(SNAKE);
-        
-    }
-    if (args[1] != NULL && strcmp(args[1], "pong") == 0 && strt == 1) { 
-        if (current_game != NULL) {
-            printf("A game is already running. Please restart or exit the current game first.\n");
-            return 0;
-        }
-        if (connected < 2) {
-            printf("Not enough players connected to start Pong. Need at least 2 players.\n");
-            return 0;
-        }if (connected > 2) {
-            printf("Too many players connected to start Pong. Only 2 players allowed.\n");
-            return 0;
-        }
-        printf("starting pong\n");
-        //sendMode(SNAKE);
-        startMode(PONG);
-        
-    }
-    if (args[1] != NULL && strcmp(args[1], "ttt") == 0 && strt == 1) { 
-        printf("starting TicTacToe\n");
-        //sendMode(TTT);
-        startMode(TTT);
-    }
+    
     if (args[1] != NULL && strcmp(args[1], "players") == 0 && ls == 1) { 
         for (int i=0; i<(connected); i++){
             printf("\nplayer[%d]: %s\n", i, players[i].username);
@@ -111,7 +111,7 @@ int cmd(char** args) {
             printf("No game is currently running. Cannot restart.\n");
             return 0;
         }
-        current_game->restart(game_memory);
+        restart();
     }
     if (strcmp(args[0], "end") == 0) { 
         
@@ -119,7 +119,7 @@ int cmd(char** args) {
             printf("No game is currently running. Cannot end.\n");
             return 0;
         }
-        current_game->cleanup(game_memory);
+        current_game->cleanup();
         current_game = NULL;
         app_state = STATE_MENU;
         leaveMode();

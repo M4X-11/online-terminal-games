@@ -1,0 +1,11 @@
+
+API 
+
+# CLINET
+me(); - returns the index of the player
+
+
+#SERVER
+GameSend(int i, void *data); - send struct to player i
+
+connection_count(); - returns the amount of players currently connected

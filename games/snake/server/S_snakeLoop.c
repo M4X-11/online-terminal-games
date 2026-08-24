@@ -1,30 +1,13 @@
-#include <stdio.h>
+#include "../../../src/engineAPI.h"
+#include "S_snakecom.h"
 #include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <sys/select.h>
-#include "loop.h"
 #include <time.h>
-#include "../Snetwork.h"
-#include "../../engineAPI.h"
 
-int mode;
-//int server_socket;
-
-int gameStarted = 0;
-char abilityMode;
-
+/* --- 1. WRITE YOUR NORMAL GAME FUNCTIONS --- */
+static int connected;
+//Player players[6];
 Package game;
 Packets packet;
-Cpacket clientPacket;
-
-/*
-int snakeRestart(){
-    initSNAKE();
-    return 0;
-}*/
 
 static void appleRand(int *x, int *y)
 {
@@ -34,34 +17,6 @@ static void appleRand(int *x, int *y)
 
     *x = (rand() % Xmax) + min;
     *y = (rand() % Ymax) + min;
-}
-
-int initSNAKE()
-{
-    srand(time(NULL));
-    
-    
-    appleRand(&game.apple[0].x, &game.apple[0].y);
-
-    for (int i=0; i<connected; i++){
-        game.players[i].socket = players[i].socket;
-        game.players[i].connected = players[i].connected;
-    }
-    //init
-    for (int i = 0; i < connected; i++) {
-        appleRand(&game.players[i].snake.x,
-                &game.players[i].snake.y);
-
-        game.players[i].snake.oldX = game.players[i].snake.x;
-        game.players[i].snake.oldY = game.players[i].snake.y;
-        game.players[i].snake.direction = RIGHT;
-        game.players[i].snake.points = 0;
-        game.players[i].dead='a';
-        packet.players[i].dead='a';
-    }
-    game.connections = connected;
-    
-    return 0;
 }
 
 static int isBodyAt(int x, int y, Segment body[], int bodyLength)
@@ -79,81 +34,34 @@ static int isOutOfBounds(int x, int y)
     return (x == -1 || x == 45 || y == -1 || y == 17);
 }
 
-int SnakeGameLoop()
-{
-    
 
+static void snake_init() {
+    connected = connection_count();
+    srand(time(NULL));
 
-
-
-
-    //printf("\nStarting game with %d players!\n", connected);
+    appleRand(&game.apple[0].x, &game.apple[0].y);
 
     
 
-    
 
     //init
+    for (int i = 0; i < connected; i++) {
+        appleRand(&game.players[i].snake.x,
+                &game.players[i].snake.y);
 
-    
+        game.players[i].snake.oldX = game.players[i].snake.x;
+        game.players[i].snake.oldY = game.players[i].snake.y;
+        game.players[i].snake.direction = RIGHT;
+        game.players[i].snake.points = 0;
+        game.players[i].dead='a';
+        packet.players[i].dead='a';
+    }
+    game.connections = connected;
+}
 
-
-    // GAME LOOP
-    
-        
-        /*
-        if (FD_ISSET(STDIN_FILENO, &readfds))
-        {
-            char cmd[100];
-
-            fgets(cmd, sizeof(cmd), stdin);
+static void snake_update() {
+    for (int i = 0; i < connected; i++) {
             
-            if (strcmp(cmd, "restart\n") == 0)
-            {
-                printf("Restarting game...\n");
-
-                // Reset every player
-                for (int i = 0; i < connected; i++)
-                {
-                    appleRand(&game.players[i].snake.x,
-                            &game.players[i].snake.y);
-
-                    game.players[i].snake.oldX = game.players[i].snake.x;
-                    game.players[i].snake.oldY = game.players[i].snake.y;
-                    game.players[i].snake.points = 0;
-                    game.players[i].snake.direction = RIGHT;
-                    game.players[i].dead = 'a';
-                    packet.players[i].dead = 'a';
-
-                    memset(game.players[i].snake.body,
-                        0,
-                        sizeof(game.players[i].snake.body));
-                }
-
-                appleRand(&game.apple[0].x, &game.apple[0].y);
-            }
-        }*/
-
-        for (int i = 0; i < connected; i++) {
-            /*
-            if (FD_ISSET(game.players[i].socket, &readfds)) {
-
-                int dir;
-                int n = recv(game.players[i].socket,
-                            &clientPacket,
-                            sizeof(clientPacket),
-                            0);
-
-                if (n > 0) {
-                    game.players[i].snake.direction = clientPacket.dir;
-                    printf("player[%d] direction: %d\n", i, clientPacket.dir);
-                }
-                else if (n == 0) {
-                    printf("Player %d disconnected\n", i);
-                    close(game.players[i].socket);
-                    game.players[i].connected = 0;
-                }
-            }}*/
 
             //update snake head
             for (int i=0; i<connected; i++){
@@ -214,8 +122,8 @@ int SnakeGameLoop()
                         game.players[i].snake.y=-1000;
                         game.players[i].dead='d';
                         packet.players[i].dead='d';
-                        printf("player[%d] dead", i);
-                        fflush(stdout);
+                        //printf("player[%d] dead", i);
+                        //fflush(stdout);
                     }
                 }
             }
@@ -234,19 +142,37 @@ int SnakeGameLoop()
                 packet.players[i].y=game.players[i].snake.y;
                 //send(game.players[i].socket, &packet, sizeof(packet), 0);
                 //send(game.players[i].socket, &packet, sizeof(packet), 0);
-
+                
+                GameSend(i, &packet);
+                /*
                 PacketHeader header;
                 header.type = MSG_UPDATE_GAME;
                 header.length = sizeof(packet);
                 send_all(game.players[i].socket, &header, sizeof(header));
                 send_all(game.players[i].socket, &packet, sizeof(packet));
-                //printf("packet sent to player[%d]\n", i);
+                */
             }
         
         }
-
-
-    
-
-    return 0;
 }
+
+
+
+static void snake_input(int key, int i) {
+    // Handle KEY_UP, KEY_DOWN, etc.
+    (void)key;
+    (void)i;
+}
+
+
+/* --- 2. PACKAGE THEM INTO THE MODULE STRUCT --- */
+
+// Marking it 'extern' in a snake header (or passing &SNAKE_MODULE) exposes it
+const GameMode SNAKE_MODULE = {
+    .name         = "snake",
+    .min_players = 1,
+    .max_players = 6,
+    .init         = snake_init,    // Handing over function memory address
+    .update       = snake_update,  // Handing over function memory address
+    .input = snake_input,    // Handing over function memory address
+};

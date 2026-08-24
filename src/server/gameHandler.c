@@ -8,18 +8,21 @@
 #include <time.h>
 #include "pong/pongLoop.h"
 
+///new api thing
+#include "../../games/GameHeader.h"
+///
+#include "../engineAPI.h"
+
 
 int running = 1;
 
 AppState app_state = STATE_MENU;
-GameMode *current_game = NULL;
+const GameMode *current_game = NULL;
 void *game_memory = NULL;
 
-static void cleanup(void *state) {
+static void cleanup() {
     printf("[%s] exited!\n", current_game->name);
-    free(state); // Free game-specific allocated state
     app_state = STATE_MENU;
-    game_memory = NULL;
     current_game = NULL;
     desired_ms = 100000; // Reset to default update interval
 }
@@ -29,21 +32,14 @@ static void cleanup(void *state) {
 // 2. GAME 1: SNAKE IMPLEMENTATION
 // ============================================================================
 
-typedef struct {
-    int score;
-    int length;
-} SnakeState;
 
-static void snake_init(void **state) {
-    SnakeState *s = malloc(sizeof(SnakeState));
-    initSNAKE();
-    *state = s;
+
+static void snake_init() {
+    //initSNAKE();
 }
 
-static void snake_update(void *state) {
-    SnakeState *s = (SnakeState *)state;
-    SnakeGameLoop();
-    (void)s;
+static void snake_update() {
+    //SnakeGameLoop();
 }
 
 ////////
@@ -54,12 +50,7 @@ static void snake_input(int input, int i){
 
 
 
-static void snake_restart(void *state) {
-    SnakeState *s = (SnakeState *)state;
-    printf("[Snake] Restarted game!\n");
-    initSNAKE();
-    (void)s;
-}
+
 
 
 // Instantiate the Snake "Cartridge"
@@ -68,8 +59,7 @@ GameMode SnakeGame = {
     .init = snake_init,
     .update = snake_update,
     .input = snake_input,
-    .cleanup = cleanup,
-    .restart = snake_restart
+    .cleanup = cleanup
 };
 
 // ============================================================================
@@ -77,23 +67,13 @@ GameMode SnakeGame = {
 // ============================================================================
 
 
-static void pong_init(void **state) {
-    SnakeState *s = malloc(sizeof(SnakeState));
-    //desired_ms = 100; // Set desired update interval for Pong
+static void pong_init() {
     InitPONG(); // Initialize Pong game state
-    *state = s;
 }
-static void pong_update(void *state) {
-    SnakeState *s = (SnakeState *)state;
+static void pong_update() {
     PongGameLoop();
-    (void)s;
 }
-static void pong_restart(void *state) {
-    SnakeState *s = (SnakeState *)state;
-    printf("[Pong] Restarted game!\n");
-    InitPONG();
-    (void)s;
-}
+
 static void pong_input(int input, int i){
     pong.player[i].direction=input;
     playerMove(i, input);
@@ -105,28 +85,25 @@ GameMode PongGame = {
     .init = pong_init, // Implement Pong initialization
     .update = pong_update, // Implement Pong update logic
     .input = pong_input, // Implement Pong rendering
-    .cleanup = cleanup, // Implement Pong cleanup
-    .restart = pong_restart // Implement Pong restart logic
+    .cleanup = cleanup // Implement Pong cleanup
 };
 
 ////////////////
 
+int restart(){
+    printf("[%s] Restarted game!\n", current_game->name);
+    current_game->init();
+    return 0;
+}
+
 int startMode(int mode){
     sendMode(mode);
 
-    if (mode == SNAKE) {
-                current_game = &SnakeGame;
-                current_game->init(&game_memory); // Allocate game state
-                app_state = STATE_IN_GAME;
-            } 
-            else if (mode == PONG) {
-                current_game = &PongGame;
-                current_game->init(&game_memory); // Allocate game state
-                app_state = STATE_IN_GAME;
-            }
-            else if (mode == 'x') {
-                running = 0;
-            }
+    
+    current_game = ALL_GAMES[mode];
+    current_game->init();
+    app_state = STATE_IN_GAME;
+            
 
 
     return 0;
@@ -151,7 +128,7 @@ int gameLoop(void)
     }
 
     if (app_state == STATE_IN_GAME && current_game != NULL) {
-        current_game->update(game_memory);
+        current_game->update();
         //current_game->render(game_memory);
     }
 

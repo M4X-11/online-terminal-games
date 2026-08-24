@@ -5,6 +5,8 @@
 #include "../Snetwork.h"
 #include <math.h>
 
+#include "../../engineAPI.h"
+
 
 int width=17;
 int leght=47;
@@ -175,7 +177,7 @@ int PongGameLoop()
 
     
     PacketHeader header;
-    header.type = MSG_UPDATE_PONG;
+    header.type = MSG_UPDATE_GAME;
     header.length = sizeof(pong);
     send_all(players[0].socket, &header, sizeof(header));
     send_all(players[0].socket, &pong, sizeof(pong));

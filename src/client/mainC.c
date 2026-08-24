@@ -11,6 +11,9 @@
 #include <ncurses.h>
 #include "snake/snakecom.h"
 
+
+#include "../../src/engineAPI.h"
+
 #include <fcntl.h>
 PlayerNAMES players[6];
 char commandRES[30];
