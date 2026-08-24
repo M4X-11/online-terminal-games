@@ -15,3 +15,5 @@ int gameLoop(void);
 
 int restart();
 
+void cleanup();
+

@@ -16,7 +16,7 @@
 
 #include <fcntl.h>
 PlayerNAMES players[6];
-char commandRES[30];
+
 int cmdON = 1;
 int currentGameMode; 
 int main(){

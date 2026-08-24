@@ -18,6 +18,7 @@ WINDOW *cmdWin;
 char command[CMD_SIZE];
 char lastCommand[CMD_SIZE];
 int commandPos = 0;
+char commandRES[30];
 
 int initScreen(){
     return 0;
@@ -140,7 +141,8 @@ void handleCommandInput(int key)
 
     if (toks != NULL)
     {
-        cmd(toks);
+        char* ptr = commandRES;
+        cmd(toks, &ptr);
 
 
         

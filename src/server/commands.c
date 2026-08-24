@@ -119,7 +119,7 @@ int cmd(char** args) {
             printf("No game is currently running. Cannot end.\n");
             return 0;
         }
-        current_game->cleanup();
+        void cleanup();
         current_game = NULL;
         app_state = STATE_MENU;
         leaveMode();

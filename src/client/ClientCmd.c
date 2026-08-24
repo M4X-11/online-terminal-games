@@ -9,7 +9,7 @@
 
 int strt=0;
 int ls=0;
-int cmd(char** args) {
+int cmd(char** args, char** commandRES) {
     // If the user didn't type anything at all, safely exit
     if (args == NULL || args[0] == NULL) {
         return 0;
@@ -45,7 +45,7 @@ int cmd(char** args) {
     
     if (args[1] != NULL && strcmp(args[1], "snake") == 0 && strt == 1) { 
         //printf("voting snake\n");
-        strcpy(commandRES, "voting snake");
+        strcpy(*commandRES, "voting snake");
         sendVote(SNAKE);
     }
     if (args[1] != NULL && strcmp(args[1], "players") == 0 && ls == 1) { 
@@ -59,7 +59,7 @@ int cmd(char** args) {
                 //printf("Player %d: %s\n", i, players[i].username);
             }
         }
-        strcpy(commandRES, buffer);
+        strcpy(*commandRES, buffer);
     }
     
     

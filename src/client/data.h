@@ -95,11 +95,11 @@ typedef struct {
 
 extern int cmdON;
 
-int cmd(char** args);
+int cmd(char** args, char** commandRES);
 
 char** tokens(char* args);
 
-extern char commandRES[30];
+
 
 
 

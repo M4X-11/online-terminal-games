@@ -20,7 +20,7 @@ AppState app_state = STATE_MENU;
 const GameMode *current_game = NULL;
 void *game_memory = NULL;
 
-static void cleanup() {
+void cleanup() {
     printf("[%s] exited!\n", current_game->name);
     app_state = STATE_MENU;
     current_game = NULL;
