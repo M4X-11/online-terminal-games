@@ -53,7 +53,7 @@ typedef struct {
     char ability;
 } Cpacket;
 
-extern Cpacket clientPacket;
+Cpacket clientPacket;
 
 typedef struct {
 
@@ -62,7 +62,7 @@ typedef struct {
     int connections;
 } Package;
 
-extern Package game;
+Package game;
 int Sdispl();
 int snakeUpdate();
 
@@ -83,4 +83,4 @@ typedef struct {
     PlayerP players[MAX_PLAYERS];
     int connections;
 } Packets;
-extern Packets packet;
+Packets packet;

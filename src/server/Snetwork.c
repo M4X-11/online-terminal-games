@@ -11,13 +11,13 @@
 #include "Snetwork.h"
 #include "playerState.h"
 #include "Snetwork.h"
-#include "snake/loop.h"
+
 #include "gameHandler.h"
 
 #include "../../src/engineAPI.h"
 
 int server_socket;
-int startServer(){
+int startServer(int port){
     signal(SIGPIPE, SIG_IGN);
 
     //srand(time(NULL));
@@ -36,7 +36,7 @@ int startServer(){
     struct sockaddr_in server_address;
 
     server_address.sin_family = AF_INET;
-    server_address.sin_port = htons(6969);
+    server_address.sin_port = htons(port);
     server_address.sin_addr.s_addr = INADDR_ANY;
 
     // Bind
@@ -242,7 +242,7 @@ int readPackage(int sock, int i){
     case MSG_PLAYER_LIST:
         // Handle player list request
         send_all(sock, &players, sizeof(players));
-        printf("\nplayer[%d] requested player list\n", i);
+        //printf("\nplayer[%d] requested player list\n", i);
         // You can implement sending the player list back to the client here
         break;
     default:
@@ -254,32 +254,14 @@ int readPackage(int sock, int i){
     
 }
 
-int getData(){
-    PacketHeader packet;
-    int action;
-    int vote;
-    for (int i = 0; i < connected; i++)
-    {
-        recv_all(players[i].socket, &packet, sizeof(packet));
-        action=packet.type;
-        if (action == MSG_VOTE){
-            recv_all(players[i].socket, &vote, sizeof(int));
-            printf("player[%d] voted: %d\n", i, vote);
-        }
-        if (action == MSG_MOVE){
-            recv_all(players[i].socket, &game.players[i].snake.direction, sizeof(int));
-            printf("player[%d] moved: %d\n", i, game.players[i].snake.direction);
-        }
-    }
-    
-    return vote;
-}
-// PAYLOADS
 
-int GameSend(int i, void* data){
+
+// API
+
+int GameSend(int i, void* data, size_t p){
     PacketHeader header;
     header.type = MSG_UPDATE_GAME;
-    header.length = sizeof(packet);
+    header.length = p;
     send_all(players[i].socket , &header, sizeof(header));
     send_all(players[i].socket, data, header.length);
     return 0;

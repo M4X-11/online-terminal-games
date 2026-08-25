@@ -29,10 +29,12 @@ int cmd(char** args, char** commandRES) {
     }*/
 
     if (strcmp(args[0], "help") == 0) { 
+        strcpy(*commandRES, "cmds: \"ls players\"");
+        /*
         printf("Available commands:\n");
         printf("  vote snake - Vote to start the Snake game\n");
         printf("  vote ttt - Vote to start the Tic-Tac-Toe game\n");
-        printf("  ls players - List all connected players\n");
+        printf("  ls players - List all connected players\n");*/
     }
 
     if (strcmp(args[0], "vote") == 0) { 
@@ -46,7 +48,7 @@ int cmd(char** args, char** commandRES) {
     if (args[1] != NULL && strcmp(args[1], "snake") == 0 && strt == 1) { 
         //printf("voting snake\n");
         strcpy(*commandRES, "voting snake");
-        sendVote(SNAKE);
+        //sendVote(SNAKE);
     }
     if (args[1] != NULL && strcmp(args[1], "players") == 0 && ls == 1) { 
         listPlayers(network_socket);

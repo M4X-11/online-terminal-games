@@ -9,16 +9,16 @@
 #include <time.h>
 #include <errno.h>
 #include <ncurses.h>
-#include "snake/snakecom.h"
+
 
 
 #include "../../src/engineAPI.h"
 
 #include <fcntl.h>
 PlayerNAMES players[6];
+int running = 1;
 
-int cmdON = 1;
-int currentGameMode; 
+ 
 int main(){
     //Address addr;
     printf("Welcome to online terminal games!\n");
@@ -130,7 +130,7 @@ int main(){
         * Wait until either:
         *
         *   1. keyboard input exists
-        *   2. server data exists
+        *   2. server data exists :3
         */
         int ret = select(
             max_fd + 1,
@@ -150,11 +150,7 @@ int main(){
         }
 
 
-        /*
-        * =========================
-        * KEYBOARD
-        * =========================
-        */
+        //keyboard
 
         if (FD_ISSET(STDIN_FILENO, &readfds))
         {
@@ -188,13 +184,9 @@ int main(){
         }
 
 
-        /*
-        * =========================
-        * SERVER
-        * =========================
-        */
+        
 
-        //gameLoop();
+        //gameLoop / data
             if (FD_ISSET(network_socket, &readfds))
         {
             //printf("Data from server\n");

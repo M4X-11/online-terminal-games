@@ -36,16 +36,10 @@ int getData();
 int send_all(int sock, const void *buffer, size_t length);
 int sendDirection(int sock, int input);
 ////
-extern int currentGameMode; // 0 = none, 1 = snake, 2 = ttt
-extern int network_socket;
-extern int running;
 
-typedef enum
-{
-    SNAKE,
-    TTT,
-    PONG
-} Gmode;
+extern int network_socket;
+
+
 
 typedef enum
 {
@@ -72,28 +66,10 @@ int displayMenu();
 void handleCommandInput(int key);
 int listPlayers(int sock);
 
-///////////////
 
 
-/* 1. Define clean function pointer types using void* for game-private memory 
-typedef void (*GameInitFunc)();
-typedef void (*GameUpdateFunc)();
-typedef void (*GameRenderFunc)();
-typedef void (*GameCleanupFunc)();
-typedef void* (*GameNetFunc)();
-
-// 2. Package them into your engine's module struct 
-typedef struct {
-    const char *name;
-    GameInitFunc    init;
-    GameUpdateFunc  update;
-    GameRenderFunc   render;
-    GameCleanupFunc cleanup;
-    GameNetFunc net;
-} GameMode;*/
 
 
-extern int cmdON;
 
 int cmd(char** args, char** commandRES);
 

@@ -9,7 +9,7 @@
 extern int server_socket;
 extern int connected;
 
-int startServer();
+int startServer(int port);
 int acceptPlayer(Player *players, int *connected);
 int disconnectPlayer(Player *players, int id);
 
@@ -18,7 +18,7 @@ int send_all(int sock, const void *buffer, size_t length);
 
 int readPackage(int sock, int i);
 
-int getData();
+
 
 int sendMode(int mode);
 int leaveMode();
@@ -42,12 +42,6 @@ typedef enum
     MSG_LEAVE
 } MessageType;
 
-typedef enum
-{
-    SNAKE,
-    TTT,
-    PONG
-} Gmode;
 
 typedef struct
 {

@@ -10,8 +10,7 @@
 #include "data.h"
 #include <time.h>
 #include <arpa/inet.h>
-#include "snake/snakecom.h"
-#include "pong/pongcom.h"
+
 
 #include "../../src/engineAPI.h"
 
@@ -143,10 +142,11 @@ int getData(){
     recv_all(network_socket, &Cpacket, sizeof(Cpacket));
     action=Cpacket.type;
     if (action == MSG_MODE){
-        recv_all(network_socket, &currentGameMode, sizeof(int));
+        int m;
+        recv_all(network_socket, &m, sizeof(int));
         //printf("\ncurrent game mode: %d\n", currentGameMode);
         /* Start the corresponding mode on the client */
-        startMode(currentGameMode);
+        startMode(m);
     }
     if (action == MSG_UPDATE_GAME){
         PacketManager *p = current_game->net();
@@ -160,7 +160,6 @@ int getData(){
     }
     
     if (action == MSG_LEAVE){
-        currentGameMode=0;
         app_state = STATE_MENU;
         current_game = NULL;
         displayMenu();

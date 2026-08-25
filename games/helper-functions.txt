@@ -6,6 +6,6 @@ me(); - returns the index of the player
 
 
 #SERVER
-GameSend(int i, void *data); - send struct to player i
+GameSend(int i, void *data, size_t size); - send struct to player i
 
 connection_count(); - returns the amount of players currently connected

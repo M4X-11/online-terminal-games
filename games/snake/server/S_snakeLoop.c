@@ -143,7 +143,7 @@ static void snake_update() {
                 //send(game.players[i].socket, &packet, sizeof(packet), 0);
                 //send(game.players[i].socket, &packet, sizeof(packet), 0);
                 
-                GameSend(i, &packet);
+                GameSend(i, &packet, sizeof(packet));
                 /*
                 PacketHeader header;
                 header.type = MSG_UPDATE_GAME;

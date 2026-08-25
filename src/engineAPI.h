@@ -59,7 +59,7 @@ typedef struct Player
 #define MAX_PLAYERS 6
 extern Player players[MAX_PLAYERS];*/
 
-int GameSend(int i, void *data);
+int GameSend(int i, void *data, size_t p);
 int connection_count();
 int me();
 
