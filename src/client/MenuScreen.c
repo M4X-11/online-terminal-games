@@ -65,28 +65,23 @@ int displayMenu()
         0
     );
 
-    // Allow arrow keys, etc.
-    //keypad(gameWin, TRUE);
-    //keypad(cmdWin, TRUE);
-
-    // Non-blocking input for command window
-    //nodelay(cmdWin, TRUE);
+    
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
 
-    // Draw command window border
+    
     box(cmdWin, 0, 0);
 
-    // Draw game
+    
     mvwprintw(gameWin, 0, 0, "      .          ,                   .                   \n _ ._ |*._  _   -+- _ ._.._ _ *._  _.|   _  _.._ _  _  __\n(_)[ )||[ )(/,   | (/,[  [ | )|[ )(_]|  (_](_][ | )(/,_) \n                                        ._|              \n");
 
-    // Draw command prompt
+    
     mvwprintw(cmdWin, 1, 1, "OTG$ ");
 
     // Put cursor after OTG$
     wmove(cmdWin, 1, 6);
 
-    // Show everything
+    
     wrefresh(gameWin);
     wrefresh(cmdWin);
 
@@ -96,7 +91,7 @@ int displayMenu()
 
 void cmdDisplay()
 {
-    // Clear and redraw command window
+    
     werase(cmdWin);
     box(cmdWin, 0, 0);
 
@@ -106,14 +101,14 @@ void cmdDisplay()
         mvwprintw(cmdWin, CMD_HEIGHT - 3, 1, "%s", commandRES);
     }
 
-    // Draw prompt and current input
+    
     mvwprintw(cmdWin, CMD_HEIGHT - 2, 1, "OTG$ %s", command);
 
-    // Position cursor at end of input
+    
     wmove(cmdWin, CMD_HEIGHT - 2, 6 + commandPos);
 
-    // --- FIX: Refresh both windows ---
-    touchwin(gameWin); // Forces ncurses to recognize gameWin needs redrawing
+    
+    touchwin(gameWin); 
     wrefresh(gameWin); 
     wrefresh(cmdWin);
 }
@@ -121,11 +116,7 @@ void cmdDisplay()
 
 void handleCommandInput(int key)
 {
-    //int key;
-
-    // Get a key without blocking
-    //key = wgetch(cmdWin);
-
+    
     if (key == ERR)
         return;
 
@@ -154,12 +145,11 @@ void handleCommandInput(int key)
     }
         
 
-        // Do something with the command
-        // For now, just clear it
+        
 
         if (strcmp(command, "exit") == 0)
         {
-            // You can handle exit here
+            //
         }
 
         commandPos = 0;

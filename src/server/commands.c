@@ -17,23 +17,11 @@
 int strt=0;
 int ls=0;
 int cmd(char** args) {
-    // If the user didn't type anything at all, safely exit
+    
     if (args == NULL || args[0] == NULL) {
         return 0;
     }
-    /*
-    if (strcmp(args[0], "ls") == 0) { 
-        printf("yoyoyooy\n"); 
-    }
     
-    // Safely check if a second argument actually exists before comparing it
-    if (args[1] != NULL && strcmp(args[1], "ls") == 0) { 
-        printf("yoyoyooy2\n"); 
-    }
-
-    if (strcmp(args[0], "echo") == 0) { 
-        printf("yoyoyooy\n"); 
-    }*/
 
     if (strcmp(args[0], "help") == 0) { 
         printf("Available commands:\n");
@@ -132,7 +120,7 @@ int cmd(char** args) {
 
 char** tokens(char* args) {
     int num = strlen(args);
-    // Allocate space (plus one extra for the trailing NULL pointer)
+    
     char** res = malloc(sizeof(char*) * (num + 1)); 
 
     char* token = strtok(args, " ");
@@ -145,18 +133,6 @@ char** tokens(char* args) {
         o++;
     }
     
-    res[o] = NULL; // <--- CRITICAL: Explicitly mark the end of the array
+    res[o] = NULL;
     return res;
 }
-/*
-int cmd(char** line){
-    switch (expression)
-    {
-    case constant expression:
-        // code
-        break;
-    
-    default:
-        break;
-    }
-}*/

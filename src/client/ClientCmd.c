@@ -72,7 +72,7 @@ int cmd(char** args, char** commandRES) {
 
 char** tokens(char* args) {
     int num = strlen(args);
-    // Allocate space (plus one extra for the trailing NULL pointer)
+    
     char** res = malloc(sizeof(char*) * (num + 1)); 
 
     char* token = strtok(args, " ");
@@ -85,6 +85,6 @@ char** tokens(char* args) {
         o++;
     }
     
-    res[o] = NULL; // <--- CRITICAL: Explicitly mark the end of the array
+    res[o] = NULL; 
     return res;
 }
