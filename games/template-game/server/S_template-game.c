@@ -1,5 +1,5 @@
 #include "../../../src/engineAPI.h"
-
+#include <stdio.h>
 
 
 static void snake_init() {
@@ -19,6 +19,18 @@ static void snake_input(int key, int i) {
     (void)i;
 }
 
+static void yo(){
+    printf("hello UwU :3\n");
+}
+
+static void* snake_cmd(){
+    static cmdManager c[] ={{
+        .command="hello",
+        .comment="says hello",
+        .funct = yo
+    }};
+    return c;
+}
 
 
 
@@ -30,4 +42,5 @@ const GameMode TEMPLATE_MODULE = {
     .init         = snake_init,
     .update       = snake_update,
     .input = snake_input,
+    .cmd = snake_cmd
 };

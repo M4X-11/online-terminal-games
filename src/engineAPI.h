@@ -10,6 +10,7 @@ typedef void (*GameInputFunc)(int input, int i);
 typedef void (*GameCleanupFunc)(void);
 typedef void (*GameRenderFunc)(void);
 typedef void *(*GameNetFunc)(void);
+typedef void *(*GameCmdFunc)(void);
 
 /* Game module */
 typedef struct {
@@ -23,6 +24,7 @@ typedef struct {
     GameRenderFunc render;
     GameCleanupFunc cleanup;
     GameNetFunc net;
+    GameCmdFunc cmd;
 } GameMode;
 
 extern const GameMode *current_game;
@@ -62,5 +64,18 @@ extern Player players[MAX_PLAYERS];*/
 int GameSend(int i, void *data, size_t p);
 int connection_count();
 int me();
+
+
+
+typedef void (*cmdFunc)(void);
+typedef struct {
+    char command[10];
+    char comment[20];
+
+
+    size_t size;
+    cmdFunc funct;
+} cmdManager;
+
 
 #endif /* ENGINE_API_H */

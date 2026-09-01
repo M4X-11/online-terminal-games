@@ -17,6 +17,41 @@
 int strt=0;
 int ls=0;
 int cmd(char** args) {
+
+    /*
+    if (strcmp(args[0], "test") == 0) { 
+        for (int i = 0; i < TOTAL_GAMES; i++){
+            if (ALL_GAMES[i]->cmd == NULL) {
+                continue;
+            }
+            cmdManager *c = (cmdManager *)ALL_GAMES[i]->cmd();
+            if (c == NULL) continue;
+            if (c[0].command[0] == '\0') continue;
+            printf("%s\n", c[0].command);
+            fflush(stdout);
+        }
+        
+    }*/
+
+    for (int i = 0; i < TOTAL_GAMES; i++){
+        if (strcmp(args[0], ALL_GAMES[i]->name) == 0){
+            if (ALL_GAMES[i]->cmd == NULL) {
+                continue;
+            }
+            cmdManager *c = (cmdManager *)ALL_GAMES[i]->cmd();
+            if (c == NULL) continue;
+            for (int j=0; j<6; j++){
+                
+                if (args[1] == NULL && c[j].command[0] != '\0'){
+                    printf("%s\n", c[j].command);
+                }else if (args[1] != NULL && strcmp(args[1], c[j].command) == 0){
+                    c[j].funct();
+                    break;
+                }
+            }
+        }
+    }
+
     
     if (args == NULL || args[0] == NULL) {
         return 0;
@@ -32,6 +67,7 @@ int cmd(char** args) {
         printf("  ls players - List all connected players\n");
         printf("  kick <player_id> - Disconnect a player by their ID\n");
         printf("  restart - Restart the current game\n");
+        fflush(stdout);
     }
 
     if (strcmp(args[0], "start") == 0) { 

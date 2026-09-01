@@ -34,12 +34,12 @@ int main()
     do {
         printf("Enter server port: ");
         result = scanf("%d", &port);
-
+        while (getchar() != '\n');
         if (result != 1) {
             printf("Invalid input. Please enter a number.\n");
 
             // Clear the invalid input from the buffer
-            while (getchar() != '\n');
+            
         }
     } while (result != 1);
     
