@@ -159,23 +159,30 @@ int main(){
             switch (key)
             {
                 case KEY_UP:
-                    sendDirection(network_socket, UP);
+                    sendDirection(network_socket, KEY_UP);
                     break;
 
                 case KEY_DOWN:
-                    sendDirection(network_socket, DOWN);
+                    sendDirection(network_socket, KEY_DOWN);
                     break;
 
                 case KEY_LEFT:
-                    sendDirection(network_socket, LEFT);
+                    sendDirection(network_socket, KEY_LEFT);
                     break;
 
                 case KEY_RIGHT:
-                    sendDirection(network_socket, RIGHT);
+                    sendDirection(network_socket, KEY_RIGHT);
+                    break;
+
+                case ' ':
+                    sendDirection(network_socket, KEY_SPACE);
                     break;
 
                 case 'q':
                     running = 0;
+                    break;
+                default:
+                    sendDirection(network_socket, key);
                     break;
             }
             if (current_game == NULL) {

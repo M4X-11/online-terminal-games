@@ -235,7 +235,10 @@ int readPackage(int sock, int i){
         break;
     case MSG_MOVE:
         recv_all(sock, &dire, sizeof(int));
-        current_game->input(dire, i);
+        if (current_game!=NULL){
+            current_game->input(dire, i);
+        }
+        
         //printf("player[%d] moved: %d\n", i, game.players[i].snake.direction);
         break;
     

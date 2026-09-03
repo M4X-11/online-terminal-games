@@ -1,5 +1,6 @@
 #include "../../../src/engineAPI.h"
 #include "../template-gameData.h"
+#include <ncurses.h>
 
 
 

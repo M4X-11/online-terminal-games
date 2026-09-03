@@ -1,5 +1,6 @@
 #include "../../../src/engineAPI.h"
 #include <stdio.h>
+#include <ncurses.h>
 
 
 static void snake_init() {
@@ -14,23 +15,35 @@ static void snake_update() {
 
 
 static void snake_input(int key, int i) {
-    // Handle KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT.
+    // Handle KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_SPACE.
     (void)key;
     (void)i;
 }
 
-static void yo(){
-    printf("hello UwU :3\n");
+
+///
+// Custom server commands (6 max)
+static void example(){
+    printf("hello this is an example command\n");
+}
+
+static void bye(){
+    printf("Goodbye!\n");
 }
 
 static void* snake_cmd(){
     static cmdManager c[] ={{
         .command="hello",
         .comment="says hello",
-        .funct = yo
+        .funct = example
+    },{
+        .command="bye",
+        .comment="says goodbye",
+        .funct= bye
     }};
     return c;
 }
+//////
 
 
 

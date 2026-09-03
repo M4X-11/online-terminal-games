@@ -40,10 +40,10 @@ int cmd(char** args) {
             }
             cmdManager *c = (cmdManager *)ALL_GAMES[i]->cmd();
             if (c == NULL) continue;
-            for (int j=0; j<6; j++){
+            for (int j=0; c[j].command[0] != '\0'; j++){
                 
-                if (args[1] == NULL && c[j].command[0] != '\0'){
-                    printf("%s\n", c[j].command);
+                if (args[1] == NULL){
+                    printf("%s - %s\n", c[j].command, c[j].comment);
                 }else if (args[1] != NULL && strcmp(args[1], c[j].command) == 0){
                     c[j].funct();
                     break;

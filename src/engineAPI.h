@@ -37,10 +37,11 @@ typedef struct {
 
 /* Direction */
 enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
+    KEY_SPACE,
+    //DOWN_KEY,
+    //UP_KEY,
+    //LEFT_KEY,
+    //RIGHT_KEY
 };
 
 /* Application state */

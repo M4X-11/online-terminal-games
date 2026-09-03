@@ -2,6 +2,7 @@
 #include "S_snakecom.h"
 #include <stdlib.h>
 #include <time.h>
+#include <ncurses.h>
 
 /* --- 1. WRITE YOUR NORMAL GAME FUNCTIONS --- */
 static int connected;
@@ -51,7 +52,7 @@ static void snake_init() {
 
         game.players[i].snake.oldX = game.players[i].snake.x;
         game.players[i].snake.oldY = game.players[i].snake.y;
-        game.players[i].snake.direction = RIGHT;
+        game.players[i].snake.direction = KEY_RIGHT;
         game.players[i].snake.points = 0;
         game.players[i].dead='a';
         packet.players[i].dead='a';
@@ -71,16 +72,16 @@ static void snake_update() {
             for (int i=0; i<connected; i++){
                 switch (game.players[i].snake.direction)
                 {
-                    case UP:
+                    case KEY_UP:
                         game.players[i].snake.y--;
                         break;
-                    case DOWN:
+                    case KEY_DOWN:
                         game.players[i].snake.y++;
                         break;
-                    case LEFT:
+                    case KEY_LEFT:
                         game.players[i].snake.x--;
                         break;
-                    case RIGHT:
+                    case KEY_RIGHT:
                         game.players[i].snake.x++;
                         break;
                 }
